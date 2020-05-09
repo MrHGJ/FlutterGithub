@@ -1,15 +1,12 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:dio/adapter.dart';
+import 'package:common_utils/common_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:fluttergithub/common/LogUtil.dart';
 import 'package:fluttergithub/common/constant/constant.dart';
-import 'package:fluttergithub/models/repo.dart';
-import 'package:fluttergithub/models/user.dart';
-
-import 'Global.dart';
-import 'constant/ignore.dart';
+import 'package:fluttergithub/models/index.dart';
+import '../Global.dart';
+import '../constant/ignore.dart';
+import 'api.dart';
 
 class NetApi {
   // 在网络请求过程中可能会需要使用当前的context信息，比如在请求失败时
@@ -41,9 +38,19 @@ class NetApi {
 //    }
   }
 
-  //GitHub API OAuth认证
-  void passOAuth(String token) async {
-    var urlOauth = Constant.BASE_URL + "/authorizations";
+  getAuthorization() async {
+    String token = Global.prefs.get(Constant.TOKEN_KEY);
+    if (token != null) {
+      return token;
+    } else {
+      String basic = Global.prefs.get(Constant.BASIC_KEY);
+      return basic;
+    }
+  }
+
+  //GitHub API OAuth认证，获取token
+  void passOAuth(String basic) async {
+    var urlOauth = Api.getAuthorizations();
     final Map requestParams = {
       "scopes": ['user', 'repo'],
       "note": "admin_script",
@@ -51,51 +58,78 @@ class NetApi {
       "client_secret": Ignore.clientSecret
     };
     _options.method = "post";
-    _options.headers["Authorization"] = token;
-    await dio.request(urlOauth,
+    _options.headers["Authorization"] = basic;
+    var r = await dio.request(urlOauth,
         data: json.encode(requestParams), options: _options);
+    if (r.data['token'] != null) {
+      LogUtil.e(r.data['token']);
+      //token : 89679626d7827c3fa52dbb3ca99d8a877a501b7e
+      Global.prefs.setString(Constant.TOKEN_KEY, 'token ' + r.data['token']);
+      //更新profile中的token信息
+      Global.profile.token = r.data['token'];
+    }
   }
 
   // 登录接口，登录成功后返回用户信息
-  Future<User> login(String username, String pwd) async {
-    String token = 'Basic ' + base64.encode(utf8.encode('$username:$pwd'));
-    //存储用户名、密码、token到sp
+  Future<UserBean> login(String username, String pwd) async {
+    String basic = 'Basic ' + base64.encode(utf8.encode('$username:$pwd'));
+    //存储用户名、密码、basic到sp
     Global.prefs.setString(Constant.USER_NAME_KEY, username);
     Global.prefs.setString(Constant.PASSWORD_KEY, pwd);
-    Global.prefs.setString(Constant.TOKEN_KEY, token);
+    Global.prefs.setString(Constant.BASIC_KEY, basic);
 
-    passOAuth(token);
+    passOAuth(basic);
     //登录成功后更新公共头（authorization），此后的所有请求都会带上用户身份信息
     //dio.options.headers[HttpHeaders.authorizationHeader] = basic;
     //清空所有缓存
     //Global.netCache.cache.clear();
     //更新profile中的token信息
-    Global.profile.token = token;
+    //Global.profile.token = basic;
 
-    var urlLogin = Constant.BASE_URL + "/users/$username";
+    var urlLogin = Api.getUser(username);
     _options.method = "get";
-    _options.headers["Authorization"] = token;
+    _options.headers["Authorization"] = await getAuthorization();
+    //Basic TXJIR0o6SGdqOTQwNjI3
     var response = await dio.request(urlLogin, options: _options);
-    return User.fromJson(response.data);
+    return UserBean.fromJson(response.data);
   }
 
   //获取用户项目列表
-  Future<List<Repo>> getRepos(
+  Future<List<RepoBean>> getRepos(
       {Map<String, dynamic> queryParameters, //query参数，用于接收分页信息
       refresh = false}) async {
-    var token = Global.prefs.getString(Constant.TOKEN_KEY);
+    var basic = Global.prefs.getString(Constant.BASIC_KEY);
     var userName = Global.prefs.getString(Constant.USER_NAME_KEY);
     if (refresh) {
       // 列表下拉刷新，需要删除缓存（拦截器中会读取这些信息）
       //_options.extra.addAll({"refresh": true, "list": true});
     }
     _options.method = "get";
-    _options.headers["Authorization"] = token;
+    _options.headers["Authorization"] = await getAuthorization();
+    var url = Api.getRepos(userName);
     var r = await dio.request<List>(
-      Constant.BASE_URL + "/users/$userName/repos",
+      url,
       queryParameters: queryParameters,
       options: _options,
     );
-    return r.data.map((e) => Repo.fromJson(e)).toList();
+    return r.data.map((e) => RepoBean.fromJson(e)).toList();
+  }
+
+  //获取trending repos 项目排行榜
+  Future<List<TrendRepoBean>> getTrendingRepos(
+      String since, String language) async {
+    var url = Api.getTrendingRepos(since, language);
+    var response = await dio.get<List>(url);
+    return response.data.map((item) => TrendRepoBean.fromJson(item)).toList();
+  }
+
+  //获取trending developers developer排行榜
+  Future<List<TrendDeveloperBean>> getTrendingDevelopers(
+      String since, String language) async {
+    var url = Api.getTrendDevelopers(since, language);
+    var response = await dio.get<List>(url);
+    return response.data
+        .map((item) => TrendDeveloperBean.fromJson(item))
+        .toList();
   }
 }

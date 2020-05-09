@@ -1,26 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'profile.dart';
+part of 'profileBean.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Profile _$ProfileFromJson(Map<String, dynamic> json) {
-  return Profile()
+ProfileBean _$ProfileBeanFromJson(Map<String, dynamic> json) {
+  return ProfileBean()
     ..user = json['user'] == null
         ? null
-        : User.fromJson(json['user'] as Map<String, dynamic>)
+        : UserBean.fromJson(json['user'] as Map<String, dynamic>)
     ..token = json['token'] as String
     ..theme = json['theme'] as num
     ..cache = json['cache'] == null
         ? null
-        : CacheConfig.fromJson(json['cache'] as Map<String, dynamic>)
+        : CacheConfigBean.fromJson(json['cache'] as Map<String, dynamic>)
     ..lastLogin = json['lastLogin'] as String
     ..locale = json['locale'] as String;
 }
 
-Map<String, dynamic> _$ProfileToJson(Profile instance) => <String, dynamic>{
+Map<String, dynamic> _$ProfileBeanToJson(ProfileBean instance) =>
+    <String, dynamic>{
       'user': instance.user,
       'token': instance.token,
       'theme': instance.theme,

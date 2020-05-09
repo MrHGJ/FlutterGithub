@@ -89,6 +89,11 @@ class MyDrawer extends StatelessWidget {
               onTap: () => Navigator.pushNamed(context, "language"),
             ),
             ListTile(
+              leading: const Icon(Icons.trending_up),
+              title: Text(gm.trend),
+              onTap: () => Navigator.pushNamed(context, "trend"),
+            ),
+            ListTile(
               leading: const Icon(Icons.accessible),
               title: Text(gm.test),
               onTap: () => Navigator.pushNamed(context, "test"),
@@ -115,6 +120,7 @@ class MyDrawer extends StatelessWidget {
                               //该赋值语句会触发MaterialApp rebuild
                               userModel.user = null;
                               Global.prefs.remove(Constant.IS_LOGIN_KEY);
+                              Global.prefs.remove(Constant.BASIC_KEY);
                               Global.prefs.remove(Constant.TOKEN_KEY);
                               Navigator.pop(context);
                             },

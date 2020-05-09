@@ -1,16 +1,16 @@
 import 'package:json_annotation/json_annotation.dart';
-import "user.dart";
-part 'repo.g.dart';
+import "userBean.dart";
+part 'repoBean.g.dart';
 
 @JsonSerializable()
-class Repo {
-    Repo();
+class RepoBean {
+    RepoBean();
 
     num id;
     String name;
     String full_name;
-    User owner;
-    Repo parent;
+    UserBean owner;
+    RepoBean parent;
     bool private;
     String description;
     bool fork;
@@ -26,6 +26,6 @@ class Repo {
     num subscribers_count;
     Map<String,dynamic> license;
     
-    factory Repo.fromJson(Map<String,dynamic> json) => _$RepoFromJson(json);
-    Map<String, dynamic> toJson() => _$RepoToJson(this);
+    factory RepoBean.fromJson(Map<String,dynamic> json) => _$RepoBeanFromJson(json);
+    Map<String, dynamic> toJson() => _$RepoBeanToJson(this);
 }

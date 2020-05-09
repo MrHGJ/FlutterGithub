@@ -90,5 +90,20 @@
     "@test": {
       "type": "text",
       "placeholders": {}
-    }
+    },
+  "trend": "排行榜",
+  "@trend": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "repos": "项目",
+  "@repos": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "developers": "开发者",
+  "@developers": {
+    "type": "text",
+    "placeholders": {}
+  }
 }

@@ -1,19 +1,19 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'cacheConfig.dart';
+part of 'cacheConfigBean.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-CacheConfig _$CacheConfigFromJson(Map<String, dynamic> json) {
-  return CacheConfig()
+CacheConfigBean _$CacheConfigBeanFromJson(Map<String, dynamic> json) {
+  return CacheConfigBean()
     ..enable = json['enable'] as bool
     ..maxAge = json['maxAge'] as num
     ..maxCount = json['maxCount'] as num;
 }
 
-Map<String, dynamic> _$CacheConfigToJson(CacheConfig instance) =>
+Map<String, dynamic> _$CacheConfigBeanToJson(CacheConfigBean instance) =>
     <String, dynamic>{
       'enable': instance.enable,
       'maxAge': instance.maxAge,

@@ -51,6 +51,10 @@ class GmLocalizations {
   String get yes => Intl.message('yes', name: 'yes');
   String get cancel => Intl.message('cancel', name: 'cancel');
   String get test => Intl.message('test', name: 'test');
+  String get trend => Intl.message('trend', name: 'trend');
+  String get repos => Intl.message('repos', name: 'repos');
+  String get developers => Intl.message('developers', name: 'developers');
+
 }
 
 //Locale代理类

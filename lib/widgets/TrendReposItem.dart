@@ -1,22 +1,20 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttergithub/common/gmAvatar.dart';
 import 'package:fluttergithub/common/icons.dart';
 import 'package:fluttergithub/l10n/localization_intl.dart';
 import 'package:fluttergithub/models/index.dart';
 
-class RepoItem extends StatefulWidget {
-  // 将`repo.id`作为RepoItem的默认key
-  RepoItem(this.repo) : super(key: ValueKey(repo.id));
-  final RepoBean repo;
+class TrendReposItem extends StatefulWidget {
+  TrendReposItem(this.trendRepo) : super(key: ValueKey(trendRepo));
+  final TrendRepoBean trendRepo;
 
   @override
   State<StatefulWidget> createState() {
-    return _RepoItemState();
+    return _TrendReposItemState();
   }
 }
 
-class _RepoItemState extends State<RepoItem> {
+class _TrendReposItemState extends State<TrendReposItem> {
   @override
   Widget build(BuildContext context) {
     var subtitile;
@@ -39,16 +37,16 @@ class _RepoItemState extends State<RepoItem> {
                 dense: true,
                 leading: gmAvatar(
                   //项目owner头像
-                  widget.repo.owner.avatar_url,
+                  widget.trendRepo.avatar,
                   width: 24.0,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 title: Text(
-                  widget.repo.owner.login,
+                  widget.trendRepo.author,
                   textScaleFactor: .9,
                 ),
                 subtitle: subtitile,
-                trailing: Text(widget.repo.language ?? ""),
+                trailing: Text(widget.trendRepo.language ?? ""),
               ),
               //构建项目标题和简介
               Padding(
@@ -57,20 +55,15 @@ class _RepoItemState extends State<RepoItem> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        widget.repo.fork
-                            ? widget.repo.full_name
-                            : widget.repo.name,
+                        widget.trendRepo.name,
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
-                          fontStyle: widget.repo.fork
-                              ? FontStyle.italic
-                              : FontStyle.normal,
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 8, bottom: 12),
-                        child: widget.repo.description == null
+                        child: widget.trendRepo.description == null
                             ? Text(
                                 GmLocalizations.of(context).noDescription,
                                 style: TextStyle(
@@ -78,7 +71,7 @@ class _RepoItemState extends State<RepoItem> {
                                     color: Colors.grey[700]),
                               )
                             : Text(
-                                widget.repo.description,
+                                widget.trendRepo.description,
                                 maxLines: 3,
                                 style: TextStyle(
                                   height: 1.15,
@@ -114,29 +107,19 @@ class _RepoItemState extends State<RepoItem> {
             var children = <Widget>[
               Icon(Icons.star),
               Text(" " +
-                  widget.repo.stargazers_count
+                  widget.trendRepo.stars
                       .toString()
                       .padRight(paddingWidth)),
               Icon(MyIcons.fork),
               Text(" " +
-                  widget.repo.open_issues_count
+                  widget.trendRepo.forks
                       .toString()
                       .padRight(paddingWidth)),
 
               Icon(Icons.done), //我们的自定义图标
-              Text(widget.repo.forks_count.toString().padRight(paddingWidth)),
+              Text(widget.trendRepo.currentPeriodStars.toString().padRight(paddingWidth)),
             ];
-
-            if (widget.repo.fork) {
-              children.add(Text("Forked".padRight(paddingWidth)));
-            }
-
-            if (widget.repo.private == true) {
-              children.addAll(<Widget>[
-                Icon(Icons.lock),
-                Text(" private".padRight(paddingWidth))
-              ]);
-            }
+            
             return Row(children: children);
           }),
         ),

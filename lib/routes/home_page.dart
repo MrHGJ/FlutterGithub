@@ -1,9 +1,9 @@
 import 'package:flukit/flukit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttergithub/common/NetApi.dart';
+import 'package:fluttergithub/common/net/NetApi.dart';
 import 'package:fluttergithub/l10n/localization_intl.dart';
-import 'package:fluttergithub/models/repo.dart';
+import 'package:fluttergithub/models/index.dart';
 import 'package:fluttergithub/states/UserModel.dart';
 import 'package:fluttergithub/widgets/MyDrawer.dart';
 import 'package:fluttergithub/widgets/RepoItem.dart';
@@ -46,8 +46,8 @@ Widget _buildBody(context) {
     );
   } else {
     //已登录，则展示项目列表
-    return InfiniteListView<Repo>(
-      onRetrieveData: (int page, List<Repo> items, bool refresh) async {
+    return InfiniteListView<RepoBean>(
+      onRetrieveData: (int page, List<RepoBean> items, bool refresh) async {
         var data = await NetApi(context).getRepos(
           refresh: refresh,
           queryParameters: {

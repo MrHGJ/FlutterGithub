@@ -1,8 +1,8 @@
 {
-  "user": "$user",
+  "user": "$userBean",
   "token": "",
   "theme": 5678,
-  "cache": "$cacheConfig",
+  "cache": "$cacheConfigBean",
   "lastLogin": "",
   "locale": ""
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:fluttergithub/common/Global.dart';
-import 'package:fluttergithub/models/profile.dart';
+import 'package:fluttergithub/models/index.dart';
 
 class ProfileChangeNotifier extends ChangeNotifier {
-  Profile get profile => Global.profile;
+  ProfileBean get profile => Global.profile;
 
   @override
   void notifyListeners() {

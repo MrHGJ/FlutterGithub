@@ -1,10 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'user.g.dart';
+part 'userBean.g.dart';
 
 @JsonSerializable()
-class User {
-    User();
+class UserBean {
+    UserBean();
 
     String login;
     String avatar_url;
@@ -24,6 +24,6 @@ class User {
     num total_private_repos;
     num owned_private_repos;
     
-    factory User.fromJson(Map<String,dynamic> json) => _$UserFromJson(json);
-    Map<String, dynamic> toJson() => _$UserToJson(this);
+    factory UserBean.fromJson(Map<String,dynamic> json) => _$UserBeanFromJson(json);
+    Map<String, dynamic> toJson() => _$UserBeanToJson(this);
 }

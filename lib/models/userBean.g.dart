@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user.dart';
+part of 'userBean.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-User _$UserFromJson(Map<String, dynamic> json) {
-  return User()
+UserBean _$UserBeanFromJson(Map<String, dynamic> json) {
+  return UserBean()
     ..login = json['login'] as String
     ..avatar_url = json['avatar_url'] as String
     ..type = json['type'] as String
@@ -27,7 +27,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
     ..owned_private_repos = json['owned_private_repos'] as num;
 }
 
-Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
+Map<String, dynamic> _$UserBeanToJson(UserBean instance) => <String, dynamic>{
       'login': instance.login,
       'avatar_url': instance.avatar_url,
       'type': instance.type,

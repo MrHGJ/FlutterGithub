@@ -1,22 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'repo.dart';
+part of 'repoBean.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Repo _$RepoFromJson(Map<String, dynamic> json) {
-  return Repo()
+RepoBean _$RepoBeanFromJson(Map<String, dynamic> json) {
+  return RepoBean()
     ..id = json['id'] as num
     ..name = json['name'] as String
     ..full_name = json['full_name'] as String
     ..owner = json['owner'] == null
         ? null
-        : User.fromJson(json['owner'] as Map<String, dynamic>)
+        : UserBean.fromJson(json['owner'] as Map<String, dynamic>)
     ..parent = json['parent'] == null
         ? null
-        : Repo.fromJson(json['parent'] as Map<String, dynamic>)
+        : RepoBean.fromJson(json['parent'] as Map<String, dynamic>)
     ..private = json['private'] as bool
     ..description = json['description'] as String
     ..fork = json['fork'] as bool
@@ -33,7 +33,7 @@ Repo _$RepoFromJson(Map<String, dynamic> json) {
     ..license = json['license'] as Map<String, dynamic>;
 }
 
-Map<String, dynamic> _$RepoToJson(Repo instance) => <String, dynamic>{
+Map<String, dynamic> _$RepoBeanToJson(RepoBean instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'full_name': instance.full_name,

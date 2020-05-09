@@ -69,3 +69,13 @@ void showLoading(context, [String text]) {
         );
       });
 }
+
+//获取屏幕宽
+double getScreenWidth(BuildContext context) {
+  return MediaQuery.of(context).size.width;
+}
+
+//获取屏幕高
+double getScreenHeight(BuildContext context) {
+  return MediaQuery.of(context).size.height;
+}
