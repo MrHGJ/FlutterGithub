@@ -19,14 +19,17 @@ class _TrendReposItemState extends State<TrendReposItem> {
   Widget build(BuildContext context) {
     var subtitile;
     return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
-      child: Material(
-        color: Colors.white,
-        shape: BorderDirectional(
-          bottom: BorderSide(
-            color: Theme.of(context).dividerColor,
-            width: .5,
-          ),
+      padding: const EdgeInsets.only(top: 12.0, left: 8.0, right: 8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(5.0),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black54,
+                offset: Offset(1.0, 1.0), //延伸的阴影，向右下偏移的距离
+                blurRadius: 3.0) //延伸距离,会有模糊效果
+          ],
         ),
         child: Padding(
           padding: const EdgeInsets.only(top: 0.0, bottom: 16.0),
@@ -107,19 +110,17 @@ class _TrendReposItemState extends State<TrendReposItem> {
             var children = <Widget>[
               Icon(Icons.star),
               Text(" " +
-                  widget.trendRepo.stars
-                      .toString()
-                      .padRight(paddingWidth)),
+                  widget.trendRepo.stars.toString().padRight(paddingWidth)),
               Icon(MyIcons.fork),
               Text(" " +
-                  widget.trendRepo.forks
-                      .toString()
-                      .padRight(paddingWidth)),
+                  widget.trendRepo.forks.toString().padRight(paddingWidth)),
 
               Icon(Icons.done), //我们的自定义图标
-              Text(widget.trendRepo.currentPeriodStars.toString().padRight(paddingWidth)),
+              Text(widget.trendRepo.currentPeriodStars
+                  .toString()
+                  .padRight(paddingWidth)),
             ];
-            
+
             return Row(children: children);
           }),
         ),

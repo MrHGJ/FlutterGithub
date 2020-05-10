@@ -113,7 +113,7 @@ class _LoginRouteState extends State<LoginRoute> {
         if (e.response?.statusCode == 401) {
           showToast(GmLocalizations.of(context).userNameOrPasswordWrong);
         } else {
-          showToast(e.toString());
+          showLongToast("国内Github网站不稳定，请尝试切换网络、翻墙，或者过一段时间再登录");
         }
       } finally {
         // 隐藏loading框

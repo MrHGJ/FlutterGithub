@@ -12,9 +12,6 @@ class _TestRouteState extends State<TestRoute>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("测试页"),
-      ),
       body: FutureBuilder(
             future: getNetData(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {

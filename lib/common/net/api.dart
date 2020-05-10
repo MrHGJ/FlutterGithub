@@ -15,6 +15,10 @@ class Api {
   static getRepos(String userName) {
     return Constant.BASE_URL + "/users/$userName/repos";
   }
+  //获取项目详情
+  static getReposDetail(String repoOwner,String repoName) {
+    return Constant.BASE_URL + "/repos/$repoOwner/$repoName";
+  }
 
   //趋势项目
   static getTrendingRepos(String since, String language) {

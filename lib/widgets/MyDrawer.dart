@@ -4,6 +4,7 @@ import 'package:fluttergithub/common/Global.dart';
 import 'package:fluttergithub/common/constant/constant.dart';
 import 'package:fluttergithub/common/gmAvatar.dart';
 import 'package:fluttergithub/l10n/localization_intl.dart';
+import 'package:fluttergithub/routes/drawer/repo_detail_page.dart';
 import 'package:fluttergithub/states/UserModel.dart';
 import 'package:provider/provider.dart';
 
@@ -79,6 +80,21 @@ class MyDrawer extends StatelessWidget {
         return ListView(
           children: <Widget>[
             ListTile(
+              leading: const Icon(Icons.trending_up),
+              title: Text(gm.trend),
+              onTap: () => Navigator.pushNamed(context, "trend"),
+            ),
+            ListTile(
+              leading: const Icon(Icons.radio),
+              title: Text("项目详情"),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RepoDetailRoute("MrHGJ","FlutterGithub"),
+                ),
+              ),
+            ),
+            ListTile(
               leading: const Icon(Icons.color_lens),
               title: Text(gm.theme),
               onTap: () => Navigator.pushNamed(context, "themes"),
@@ -87,11 +103,6 @@ class MyDrawer extends StatelessWidget {
               leading: const Icon(Icons.language),
               title: Text(gm.language),
               onTap: () => Navigator.pushNamed(context, "language"),
-            ),
-            ListTile(
-              leading: const Icon(Icons.trending_up),
-              title: Text(gm.trend),
-              onTap: () => Navigator.pushNamed(context, "trend"),
             ),
             ListTile(
               leading: const Icon(Icons.accessible),
