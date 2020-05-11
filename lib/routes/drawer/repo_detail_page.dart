@@ -70,8 +70,9 @@ class _RepoDetailRouteState extends State<RepoDetailRoute>
   Widget _repoDetailWidget(RepoDetailBean repoData, ReadmeBean readmeData) {
     var gm = GmLocalizations.of(context);
     var mTabs = <String>[gm.info, gm.file, gm.commit, gm.activity];
-    return CustomScrollView(
-      slivers: <Widget>[
+    return NestedScrollView(
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled){
+      return <Widget>[
         SliverAppBar(
           pinned: true,
           elevation: 0,
@@ -103,9 +104,8 @@ class _RepoDetailRouteState extends State<RepoDetailRoute>
                     ))
                 .toList(),
           ),
-        ),
-        SliverFillRemaining(
-          child: TabBarView(
+        )];},
+       body: TabBarView(
             controller: tabController,
             children: <Widget>[
               DetailInfo(repoData, readmeData),
@@ -120,8 +120,6 @@ class _RepoDetailRouteState extends State<RepoDetailRoute>
               ),
             ],
           ),
-        ),
-      ],
     );
   }
 }
