@@ -1,7 +1,10 @@
 export 'profileBean.dart' ; 
+export 'repoDetailBean.dart' ; 
+export 'readmeBean.dart' ; 
 export 'cacheConfigBean.dart' ; 
 export 'trendDevSubBean.dart' ; 
 export 'trendDeveloperBean.dart' ; 
 export 'userBean.dart' ; 
 export 'trendRepoBean.dart' ; 
+export 'repoOwnerBean.dart' ; 
 export 'repoBean.dart' ; 

@@ -54,6 +54,11 @@ class GmLocalizations {
   String get trend => Intl.message('trend', name: 'trend');
   String get repos => Intl.message('repos', name: 'repos');
   String get developers => Intl.message('developers', name: 'developers');
+  String get info => Intl.message('info', name: 'info');
+  String get file => Intl.message('file', name: 'file');
+  String get commit => Intl.message('commit', name: 'commit');
+  String get activity => Intl.message('activity', name: 'activity');
+  String get size => Intl.message('size', name: 'size');
 
 }
 

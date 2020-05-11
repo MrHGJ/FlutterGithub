@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -78,4 +80,15 @@ double getScreenWidth(BuildContext context) {
 //获取屏幕高
 double getScreenHeight(BuildContext context) {
   return MediaQuery.of(context).size.height;
+}
+
+//Base64加密
+String encodeBase64(String data) {
+  var content = utf8.encode(data);
+  return base64Encode(content);
+}
+
+//Base64解密
+String decodeBase64(String data) {
+  return utf8.decode(base64Decode(data));
 }

@@ -1,4 +1,9 @@
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttergithub/common/net/NetApi.dart';
+import 'package:fluttergithub/l10n/localization_intl.dart';
+import 'package:fluttergithub/models/index.dart';
+import 'package:fluttergithub/widgets/RepoDetail/index.dart';
 
 class RepoDetailRoute extends StatefulWidget {
   RepoDetailRoute(this.reposOwner, this.reposName);
@@ -25,71 +30,98 @@ class _RepoDetailRouteState extends State<RepoDetailRoute>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-            pinned: true,
-            elevation: 0,
-            expandedHeight: 200,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text(widget.reposName),
-              background: Image.network(
-                'http://img1.mukewang.com/5c18cf540001ac8206000338.jpg',
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          SliverPersistentHeader(
-            pinned: true,
-            delegate: StickyTabBarDelegate(
-              child: TabBar(
-                labelColor: Colors.black,
-                controller: tabController,
-                tabs: <Widget>[
-                  Tab(text: 'INFO',),
-                  Tab(text: 'FILES',),
-                  Tab(text: 'COMMITS',),
-                  Tab(text: 'ACTIVITY',)
-                ],
-              ),
-            ),
-          ),
-          SliverFillRemaining(
-            child: TabBarView(
-              controller: tabController,
-              children: <Widget>[
-                Center(child: Text('Content of Info'),),
-                Center(child: Text('Content of Files'),),
-                Center(child: Text('Content of Commits'),),
-                Center(child: Text('Content of Activity'),),
-              ],
-            ),
-          ),
-        ],
+      body: FutureBuilder(
+        future: _getRepoDetailData(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          // 请求已结束
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasError) {
+              // 请求失败，显示错误
+              return Center(
+                child: Text("Error: ${snapshot.error}"),
+              );
+            } else {
+              // 请求成功，显示数据
+              if (snapshot.data[0] is RepoDetailBean) {
+                return _repoDetailWidget(snapshot.data[0], snapshot.data[1]);
+              } else {
+                return _repoDetailWidget(snapshot.data[1], snapshot.data[0]);
+              }
+            }
+          } else {
+            // 请求未结束，显示loading
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
       ),
     );
   }
-}
 
-class StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
-  final TabBar child;
-
-  StickyTabBarDelegate({@required this.child});
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return this.child;
+  Future _getRepoDetailData() async {
+    return Future.wait([
+      NetApi(context).getRepoDetail(widget.reposOwner, widget.reposName),
+      NetApi(context).getReadme(widget.reposOwner, widget.reposName)
+    ]);
   }
 
-  @override
-  double get maxExtent => this.child.preferredSize.height;
-
-  @override
-  double get minExtent => this.child.preferredSize.height;
-
-  @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
-    return true;
+  ///详情页内容
+  Widget _repoDetailWidget(RepoDetailBean repoData, ReadmeBean readmeData) {
+    var gm = GmLocalizations.of(context);
+    var mTabs = <String>[gm.info, gm.file, gm.commit, gm.activity];
+    return CustomScrollView(
+      slivers: <Widget>[
+        SliverAppBar(
+          pinned: true,
+          elevation: 0,
+          expandedHeight: 200,
+          flexibleSpace: FlexibleSpaceBar(
+            title: Text(repoData.name),
+            centerTitle: false,
+            titlePadding: EdgeInsets.only(left: 55.0, bottom: 62),
+            collapseMode: CollapseMode.parallax,
+            //视差效果
+            stretchModes: [
+              StretchMode.blurBackground,
+              StretchMode.zoomBackground
+            ],
+            background: Image.asset(
+              'imgs/repo_back.gif',
+              fit: BoxFit.cover,
+            ),
+          ),
+          bottom: TabBar(
+            labelColor: Colors.white,
+            labelStyle: TextStyle(fontSize: 15.0),
+            unselectedLabelColor: Colors.white60,
+            indicatorColor: Colors.greenAccent,
+            controller: tabController,
+            tabs: mTabs
+                .map((String label) => Tab(
+                      text: label,
+                    ))
+                .toList(),
+          ),
+        ),
+        SliverFillRemaining(
+          child: TabBarView(
+            controller: tabController,
+            children: <Widget>[
+              DetailInfo(repoData, readmeData),
+              Center(
+                child: Text('Content of Files'),
+              ),
+              Center(
+                child: Text('Content of Commits'),
+              ),
+              Center(
+                child: Text('Content of Activity'),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }

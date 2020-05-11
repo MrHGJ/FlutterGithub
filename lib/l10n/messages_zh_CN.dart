@@ -21,10 +21,14 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "activity" : MessageLookupByLibrary.simpleMessage("活动"),
     "auto" : MessageLookupByLibrary.simpleMessage("跟随系统"),
     "cancel" : MessageLookupByLibrary.simpleMessage("取消"),
+    "commit" : MessageLookupByLibrary.simpleMessage("提交记录"),
     "developers" : MessageLookupByLibrary.simpleMessage("开发者"),
+    "file" : MessageLookupByLibrary.simpleMessage("文件"),
     "home" : MessageLookupByLibrary.simpleMessage("Github客户端"),
+    "info" : MessageLookupByLibrary.simpleMessage("简介"),
     "language" : MessageLookupByLibrary.simpleMessage("语言"),
     "login" : MessageLookupByLibrary.simpleMessage("登录"),
     "logout" : MessageLookupByLibrary.simpleMessage("注销"),
@@ -34,6 +38,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "passwordRequired" : MessageLookupByLibrary.simpleMessage("密码不能为空"),
     "repos" : MessageLookupByLibrary.simpleMessage("项目"),
     "setting" : MessageLookupByLibrary.simpleMessage("设置"),
+    "size" : MessageLookupByLibrary.simpleMessage("大小"),
     "test" : MessageLookupByLibrary.simpleMessage("测试"),
     "theme" : MessageLookupByLibrary.simpleMessage("换肤"),
     "title" : MessageLookupByLibrary.simpleMessage("Github客户端"),

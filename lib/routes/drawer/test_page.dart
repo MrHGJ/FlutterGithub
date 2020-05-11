@@ -11,28 +11,36 @@ class TestRoute extends StatefulWidget{
 class _TestRouteState extends State<TestRoute>{
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: FutureBuilder(
-            future: getNetData(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              // 请求已结束
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasError) {
-                  // 请求失败，显示错误
-                  return Text("Error: ${snapshot.error}");
-                } else {
-                  // 请求成功，显示数据
-                  return Text("Contents: ${snapshot.data}");
-                }
-              } else {
-                // 请求未结束，显示loading
-                return CircularProgressIndicator();
-              }
-            },
+    ListView childListView = ListView.builder(
+      itemCount: 10,
+      //shrinkWrap: true,
+      //physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (BuildContext context, int index) {
+        return Container(
+          color: Colors.primaries[index % Colors.primaries.length],
+          child: SizedBox(
+            width: 100.0,
+            height: 50.0 + ((27 * index) % 15) * 3.14,
+            child: Center(
+              child: Text('$index'),
+            ),
           ),
+        );
+      },
+    );
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("测试"),
+      ),
+      body: ListView.builder(
+        itemCount: 5,
+        itemBuilder: (BuildContext context, int index) {
+          return childListView;
+        },
+      ),
     );
   }
   getNetData()async{
-    return await NetApi(context).getTrendingDevelopers('daily','');
+    return await NetApi(context).getRepoDetail("MrHGJ", "FlutterGithub");
   }
 }

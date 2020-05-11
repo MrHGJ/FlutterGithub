@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2020-05-09T17:17:22.577350",
+  "@@last_modified": "2020-05-11T15:22:01.800523",
   "title": "Flutter APP",
   "@title": {
     "description": "Title for the Demo application",
@@ -91,18 +91,43 @@
     "type": "text",
     "placeholders": {}
   },
-  "trend": "Trend",
+  "trend": "trend",
   "@trend": {
     "type": "text",
     "placeholders": {}
   },
-  "repos": "Repos",
+  "repos": "repos",
   "@repos": {
     "type": "text",
     "placeholders": {}
   },
-  "developers": "Developers",
+  "developers": "developers",
   "@developers": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "info": "INFO",
+  "@info": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "file": "FILE",
+  "@file": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "commit": "COMMIT",
+  "@commit": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "activity": "ACTIVITY",
+  "@activity": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "size": "size",
+  "@size": {
     "type": "text",
     "placeholders": {}
   }

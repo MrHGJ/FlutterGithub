@@ -17,6 +17,14 @@ class NetApi {
 
   BuildContext context;
   Options _options;
+
+  //github OAuth认证需要，没有认证某些接口访问次数限制为60次/小时，认证后为5000次/小时
+  final Map oAuthParams = {
+    "scopes": ['user', 'repo'],
+    "note": "admin_script",
+    "client_id": Ignore.clientId,
+    "client_secret": Ignore.clientSecret
+  };
   static Dio dio = new Dio();
 
   static void init() {
@@ -51,16 +59,10 @@ class NetApi {
   //GitHub API OAuth认证，获取token
   void passOAuth(String basic) async {
     var urlOauth = Api.getAuthorizations();
-    final Map requestParams = {
-      "scopes": ['user', 'repo'],
-      "note": "admin_script",
-      "client_id": Ignore.clientId,
-      "client_secret": Ignore.clientSecret
-    };
     _options.method = "post";
     _options.headers["Authorization"] = basic;
     var r = await dio.request(urlOauth,
-        data: json.encode(requestParams), options: _options);
+        data: json.encode(oAuthParams), options: _options);
     if (r.data['token'] != null) {
       LogUtil.e(r.data['token']);
       //token : 89679626d7827c3fa52dbb3ca99d8a877a501b7e
@@ -113,6 +115,24 @@ class NetApi {
       options: _options,
     );
     return r.data.map((e) => RepoBean.fromJson(e)).toList();
+  }
+
+  //获取项目repo详情信息
+  Future<RepoDetailBean> getRepoDetail(
+      String repoOwner, String repoName) async {
+    var url = Api.getRepoDetail(repoOwner, repoName);
+    _options.method = "get";
+    _options.headers["Authorization"] = await getAuthorization();
+    var response = await dio.request(url, options: _options);
+    return RepoDetailBean.fromJson(response.data);
+  }
+
+  Future<ReadmeBean> getReadme(String repoOwner, String repoName) async {
+    var url = Api.getReadme(repoOwner, repoName);
+    _options.method = "get";
+    _options.headers["Authorization"] = await getAuthorization();
+    var response = await dio.request(url, options: _options);
+    return ReadmeBean.fromJson(response.data);
   }
 
   //获取trending repos 项目排行榜

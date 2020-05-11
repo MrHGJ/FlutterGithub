@@ -105,5 +105,30 @@
   "@developers": {
     "type": "text",
     "placeholders": {}
+  },
+  "info": "简介",
+  "@info": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "file": "文件",
+  "@file": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "commit": "提交记录",
+  "@commit": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "activity": "活动",
+  "@activity": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "size": "大小",
+  "@size": {
+    "type": "text",
+    "placeholders": {}
   }
 }
