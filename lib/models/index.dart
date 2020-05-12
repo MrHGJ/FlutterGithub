@@ -1,3 +1,4 @@
+export 'fileBean.dart' ; 
 export 'commitItemBean.dart' ; 
 export 'profileBean.dart' ; 
 export 'repoDetailBean.dart' ; 

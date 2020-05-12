@@ -15,21 +15,30 @@ class Api {
   static getRepos(String userName) {
     return Constant.BASE_URL + "/users/$userName/repos";
   }
+
   //获取项目详情
-  static getRepoDetail(String repoOwner,String repoName) {
+  static getRepoDetail(String repoOwner, String repoName) {
     return Constant.BASE_URL + "/repos/$repoOwner/$repoName";
   }
+
   //获取Readme.md内容
   static getReadme(String repoOwner, String repoName) {
     return "${Constant.BASE_URL}/repos/$repoOwner/$repoName/readme";
   }
+
   //获取commits列表
   static getRepoCommits(String repoOwner, String repoName) {
     return "${Constant.BASE_URL}/repos/$repoOwner/$repoName/commits";
   }
+
   //获取commits列表
   static getRepoEvents(String repoOwner, String repoName) {
     return "${Constant.BASE_URL}/repos/$repoOwner/$repoName/events";
+  }
+
+  //获取仓库下路径的内容
+  static getRepoContent(String repoOwner, String repoName, String path) {
+    return "${Constant.BASE_URL}/repos/$repoOwner/$repoName/contents/$path";
   }
 
   //趋势项目

@@ -3,6 +3,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:fluttergithub/common/util/CommonUtil.dart';
 import 'package:fluttergithub/l10n/localization_intl.dart';
 import 'package:fluttergithub/models/index.dart';
+import 'package:fluttergithub/widgets/markdown/my_markdown_widget.dart';
 import 'package:fluttergithub/widgets/myWidgets/index.dart';
 
 class DetailInfo extends StatelessWidget {
@@ -87,9 +88,10 @@ class DetailInfo extends StatelessWidget {
 
           ///构建第三个卡片
           MyCard(
-              child: MarkdownBody(
-            data: readmeRaw,
-          )),
+            child: MyMarkdownWidget(
+              markdownData: readmeRaw,
+            )
+          ),
           Padding(
             padding: EdgeInsets.only(top: 30.0, bottom: 30.0),
             child: Center(child: Text("———— 到底了 ————")),

@@ -166,6 +166,22 @@ class NetApi {
     return r.data.map((e) => EventBean.fromJson(e)).toList();
   }
 
+  //获取repo内容
+  Future<List<FileBean>> getReposContent(
+      String repoOwner, String repoName, String path,
+      {Map<String, dynamic> queryParameters, //query参数，用于接收分页信息
+      refresh = false}) async {
+    _options.method = "get";
+    _options.headers["Authorization"] = await getAuthorization();
+    var url = Api.getRepoContent(repoOwner, repoName, path);
+    var r = await dio.request<List>(
+      url,
+      queryParameters: queryParameters,
+      options: _options,
+    );
+    return r.data.map((e) => FileBean.fromJson(e)).toList();
+  }
+
   //获取trending repos 项目排行榜
   Future<List<TrendRepoBean>> getTrendingRepos(
       String since, String language) async {

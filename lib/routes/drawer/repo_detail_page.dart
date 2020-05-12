@@ -1,11 +1,8 @@
-import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttergithub/common/net/NetApi.dart';
 import 'package:fluttergithub/l10n/localization_intl.dart';
 import 'package:fluttergithub/models/index.dart';
 import 'package:fluttergithub/widgets/RepoDetail/index.dart';
-import 'package:fluttergithub/widgets/RepoDetail/repo_detail_activitys.dart';
-import 'package:fluttergithub/widgets/RepoDetail/repo_detail_commits.dart';
 
 class RepoDetailRoute extends StatefulWidget {
   RepoDetailRoute(this.reposOwner, this.reposName);
@@ -113,9 +110,7 @@ class _RepoDetailRouteState extends State<RepoDetailRoute>
         controller: tabController,
         children: <Widget>[
           DetailInfo(repoData, readmeData),
-          Center(
-            child: Text('Content of Files'),
-          ),
+          FileList(widget.reposOwner, widget.reposName),
           CommitsList(widget.reposOwner, widget.reposName),
           EventList(widget.reposOwner, widget.reposName)
         ],
