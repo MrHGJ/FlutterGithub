@@ -23,6 +23,14 @@ class Api {
   static getReadme(String repoOwner, String repoName) {
     return "${Constant.BASE_URL}/repos/$repoOwner/$repoName/readme";
   }
+  //获取commits列表
+  static getRepoCommits(String repoOwner, String repoName) {
+    return "${Constant.BASE_URL}/repos/$repoOwner/$repoName/commits";
+  }
+  //获取commits列表
+  static getRepoEvents(String repoOwner, String repoName) {
+    return "${Constant.BASE_URL}/repos/$repoOwner/$repoName/events";
+  }
 
   //趋势项目
   static getTrendingRepos(String since, String language) {

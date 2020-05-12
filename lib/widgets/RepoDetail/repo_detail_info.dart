@@ -33,9 +33,9 @@ class DetailInfo extends StatelessWidget {
                 Text(
                   _repoDetailData.full_name,
                   style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).primaryColor),
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 15.0),
@@ -63,9 +63,9 @@ class DetailInfo extends StatelessWidget {
                 Text(
                   "简介",
                   style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).primaryColor),
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 5.0),

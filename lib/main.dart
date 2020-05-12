@@ -23,7 +23,8 @@ class MyApp extends StatelessWidget {
           (BuildContext context, themeModel, localeModel, Widget child) {
         return MaterialApp(
           theme: ThemeData(
-            primarySwatch: themeModel.theme,
+            primaryColor: themeModel.theme,
+            primaryColorDark: themeModel.theme
           ),
           onGenerateTitle: (context) {
             return GmLocalizations.of(context).title;

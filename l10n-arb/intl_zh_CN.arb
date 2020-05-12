@@ -121,7 +121,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "activity": "活动",
+  "activity": "动态",
   "@activity": {
     "type": "text",
     "placeholders": {}

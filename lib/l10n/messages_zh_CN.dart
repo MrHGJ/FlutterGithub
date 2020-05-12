@@ -21,7 +21,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
-    "activity" : MessageLookupByLibrary.simpleMessage("活动"),
+    "activity" : MessageLookupByLibrary.simpleMessage("动态"),
     "auto" : MessageLookupByLibrary.simpleMessage("跟随系统"),
     "cancel" : MessageLookupByLibrary.simpleMessage("取消"),
     "commit" : MessageLookupByLibrary.simpleMessage("提交记录"),

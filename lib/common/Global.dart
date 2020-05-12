@@ -7,7 +7,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'CacheObject.dart';
 import 'net/NetApi.dart';
 
-const _themes = <MaterialColor>[
+const _themes = <Color>[
+  Color(0xFF212121),
+  Color(0xFF303030),
   Colors.blue,
   Colors.cyan,
   Colors.teal,
@@ -23,7 +25,7 @@ class Global {
   static NetCache netCache = NetCache();
 
   //可选主题列表
-  static List<MaterialColor> get themes => _themes;
+  static List<Color> get themes => _themes;
 
 //是否为release版本
   static bool get isRelease => bool.fromEnvironment("dart.vm.product");

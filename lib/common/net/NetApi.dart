@@ -127,12 +127,43 @@ class NetApi {
     return RepoDetailBean.fromJson(response.data);
   }
 
+  //获取readme
   Future<ReadmeBean> getReadme(String repoOwner, String repoName) async {
     var url = Api.getReadme(repoOwner, repoName);
     _options.method = "get";
     _options.headers["Authorization"] = await getAuthorization();
     var response = await dio.request(url, options: _options);
     return ReadmeBean.fromJson(response.data);
+  }
+
+  //获取repo的commits列表
+  Future<List<CommitItemBean>> getCommits(String repoOwner, String repoName,
+      {Map<String, dynamic> queryParameters, //query参数，用于接收分页信息
+      refresh = false}) async {
+    _options.method = "get";
+    _options.headers["Authorization"] = await getAuthorization();
+    var url = Api.getRepoCommits(repoOwner, repoName);
+    var r = await dio.request<List>(
+      url,
+      queryParameters: queryParameters,
+      options: _options,
+    );
+    return r.data.map((e) => CommitItemBean.fromJson(e)).toList();
+  }
+
+  //获取repo的activity列表
+  Future<List<EventBean>> getEvents(String repoOwner, String repoName,
+      {Map<String, dynamic> queryParameters, //query参数，用于接收分页信息
+      refresh = false}) async {
+    _options.method = "get";
+    _options.headers["Authorization"] = await getAuthorization();
+    var url = Api.getRepoEvents(repoOwner, repoName);
+    var r = await dio.request<List>(
+      url,
+      queryParameters: queryParameters,
+      options: _options,
+    );
+    return r.data.map((e) => EventBean.fromJson(e)).toList();
   }
 
   //获取trending repos 项目排行榜
