@@ -41,6 +41,8 @@ dependencies:
   flutter_spinkit: "^4.1.2"
   #A Flutter plugin that provides a WebView widget.
   webview_flutter: ^0.3.19+9
+  # A simple transparent image. https://pub.dev/packages/transparent_image#-readme-tab-
+  transparent_image: ^1.0.0
   #PhotoView使图像能够通过用户手势（例如捏，旋转和拖动）进行缩放和平移。
   photo_view:
     git:

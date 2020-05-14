@@ -25,7 +25,7 @@ Widget languageWithPoint(String language) {
       height: 0,
     );
   }
-  switch(language){
+  switch (language) {
     case "Java":
       pointColor = Colors.green;
       break;
@@ -76,6 +76,31 @@ Widget languageWithPoint(String language) {
       Text(
         language,
         style: TextStyle(color: Colors.black45),
+      ),
+    ],
+  );
+}
+
+Widget infoWithIcon(message, icon,iconSize) {
+  if(message==null||message.length==0){
+    message="目前什么都没有";
+  }
+  return Row(
+    children: <Widget>[
+      Padding(
+        padding: EdgeInsets.only(right: 5.0),
+        child: Icon(
+          icon,
+          color: Colors.white70,
+          size: iconSize,
+        ),
+      ),
+      Text(
+        message ?? "目前什么都没有",
+        style: TextStyle(
+          color: Colors.white70,
+          fontSize: 13
+        ),
       ),
     ],
   );

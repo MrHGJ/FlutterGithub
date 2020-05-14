@@ -3,6 +3,7 @@ import 'package:fluttergithub/common/net/NetApi.dart';
 import 'package:fluttergithub/l10n/localization_intl.dart';
 import 'package:fluttergithub/models/index.dart';
 import 'package:fluttergithub/widgets/RepoDetail/index.dart';
+import 'package:fluttergithub/widgets/myWidgets/mySpinKit.dart';
 
 class RepoDetailRoute extends StatefulWidget {
   RepoDetailRoute(this.reposOwner, this.reposName);
@@ -17,13 +18,15 @@ class RepoDetailRoute extends StatefulWidget {
 }
 
 class _RepoDetailRouteState extends State<RepoDetailRoute>
-    with SingleTickerProviderStateMixin,AutomaticKeepAliveClientMixin {
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   TabController tabController;
+
   ///防止FutureBuilder进行不必要的重绘
   var _futureBuilderFuture;
 
   @override
   bool get wantKeepAlive => true;
+
   @override
   void initState() {
     super.initState();
@@ -55,7 +58,7 @@ class _RepoDetailRouteState extends State<RepoDetailRoute>
           } else {
             // 请求未结束，显示loading
             return Center(
-              child: CircularProgressIndicator(),
+              child: MySpinkitFullScreen(),
             );
           }
         },

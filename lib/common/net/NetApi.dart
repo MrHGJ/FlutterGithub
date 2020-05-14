@@ -98,17 +98,16 @@ class NetApi {
 
   //获取用户项目列表
   Future<List<RepoBean>> getRepos(
-      {Map<String, dynamic> queryParameters, //query参数，用于接收分页信息
+      {String repoOwner,
+      Map<String, dynamic> queryParameters, //query参数，用于接收分页信息
       refresh = false}) async {
-    var basic = Global.prefs.getString(Constant.BASIC_KEY);
-    var userName = Global.prefs.getString(Constant.USER_NAME_KEY);
     if (refresh) {
       // 列表下拉刷新，需要删除缓存（拦截器中会读取这些信息）
       //_options.extra.addAll({"refresh": true, "list": true});
     }
     _options.method = "get";
     _options.headers["Authorization"] = await getAuthorization();
-    var url = Api.getRepos(userName);
+    var url = Api.getRepos(repoOwner);
     var r = await dio.request<List>(
       url,
       queryParameters: queryParameters,
@@ -197,6 +196,64 @@ class NetApi {
       options: _options,
     );
     return r.data;
+  }
+
+  // 获取个人信息
+  Future<UserBean> getUserInfo(String username) async {
+    var url = Api.getUser(username);
+    _options.method = "get";
+    _options.headers["Authorization"] = await getAuthorization();
+    var response = await dio.request(url, options: _options);
+    return UserBean.fromJson(response.data);
+  }
+
+  //获取用户starred项目列表
+  Future<List<RepoBean>> getStarredRepoList(
+      {String userName, Map<String, dynamic> queryParameters}) async {
+    _options.method = "get";
+    _options.headers["Authorization"] = await getAuthorization();
+    var url = Api.getStarredRepos(userName);
+    var response = await dio.request<List>(
+      url,
+      queryParameters: queryParameters,
+      options: _options,
+    );
+    return response.data.map((e) => RepoBean.fromJson(e)).toList();
+  }
+
+  //获取repo的activity列表
+  Future<List<EventBean>> getUserEvents(
+      {String userName, Map<String, dynamic> queryParameters}) async {
+    _options.method = "get";
+    _options.headers["Authorization"] = await getAuthorization();
+    var url = Api.getUserEvents(userName);
+    var response = await dio.request<List>(
+      url,
+      queryParameters: queryParameters,
+      options: _options,
+    );
+    return response.data.map((e) => EventBean.fromJson(e)).toList();
+  }
+
+  //获取用户的following或follower
+  Future<List<UserBean>> getFollowList(
+      {@required String userName,
+      @required bool isGetFollowing,
+      Map<String, dynamic> queryParameters}) async {
+    _options.method = "get";
+    _options.headers["Authorization"] = await getAuthorization();
+    var url;
+    if (isGetFollowing) {
+      url = Api.getUserFollowing(userName);
+    } else {
+      url = Api.getUserFollower(userName);
+    }
+    var response = await dio.request<List>(
+      url,
+      queryParameters: queryParameters,
+      options: _options,
+    );
+    return response.data.map((e) => UserBean.fromJson(e)).toList();
   }
 
   //获取trending repos 项目排行榜

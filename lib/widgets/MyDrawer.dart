@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttergithub/common/Global.dart';
 import 'package:fluttergithub/common/constant/constant.dart';
-import 'package:fluttergithub/common/gmAvatar.dart';
+import 'package:fluttergithub/common/myAvatar.dart';
 import 'package:fluttergithub/l10n/localization_intl.dart';
 import 'package:fluttergithub/routes/drawer/repo_detail_page.dart';
+import 'package:fluttergithub/routes/person_detail_page.dart';
 import 'package:fluttergithub/states/UserModel.dart';
 import 'package:provider/provider.dart';
 
@@ -45,7 +46,7 @@ class MyDrawer extends StatelessWidget {
                   child: ClipOval(
                     // 如果已登录，则显示用户头像；若未登录，则显示默认头像
                     child: value.isLogin
-                        ? gmAvatar(value.user.avatar_url, width: 80)
+                        ? myAvatar(value.user.avatar_url, width: 80)
                         : Image.asset(
                             "imgs/avatar_default.png",
                             width: 80,
@@ -66,7 +67,17 @@ class MyDrawer extends StatelessWidget {
             ),
           ),
           onTap: () {
-            if (!value.isLogin) Navigator.of(context).pushNamed("login");
+            if (!value.isLogin) {
+              Navigator.of(context).pushNamed("login");
+            } else {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      PersonDetailPage(name:"MrHGJ"),
+                ),
+              );
+            }
           },
         );
       },
@@ -91,7 +102,8 @@ class MyDrawer extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => RepoDetailRoute("MrHGJ","FlutterGithub"),
+                  builder: (context) =>
+                      RepoDetailRoute("MrHGJ", "FlutterGithub"),
                 ),
               ),
             ),

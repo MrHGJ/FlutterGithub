@@ -1,6 +1,6 @@
 import 'package:flukit/flukit.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttergithub/common/gmAvatar.dart';
+import 'package:fluttergithub/common/myAvatar.dart';
 import 'package:fluttergithub/common/net/NetApi.dart';
 import 'package:fluttergithub/common/util/RelativeDateUtil.dart';
 import 'package:fluttergithub/common/util/ReposEventUtil.dart';
@@ -63,7 +63,7 @@ Widget _eventItem(EventBean eventData, BuildContext context) {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(right: 12.0),
-              child: gmAvatar(
+              child: myAvatar(
                 eventData.actor.avatar_url,
                 width: 36.0,
                 height: 36.0,

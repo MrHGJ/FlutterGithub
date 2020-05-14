@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluttergithub/common/gmAvatar.dart';
+import 'package:fluttergithub/common/myAvatar.dart';
 import 'package:fluttergithub/common/icons.dart';
 import 'package:fluttergithub/l10n/localization_intl.dart';
 import 'package:fluttergithub/models/index.dart';
@@ -45,7 +45,7 @@ class _TrendReposItemState extends State<TrendReposItem> {
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(right: 15.0),
-                        child: gmAvatar(
+                        child: myAvatar(
                           //项目owner头像
                           widget.trendRepo.avatar,
                           width: 30.0,

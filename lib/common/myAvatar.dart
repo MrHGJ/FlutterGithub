@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 
-Widget gmAvatar(String url,{
+Widget myAvatar(String url,{
   double width = 30,
   double height,
   BoxFit fit,
