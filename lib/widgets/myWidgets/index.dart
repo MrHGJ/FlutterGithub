@@ -1,2 +1,2 @@
 export 'myCard.dart';
-export 'numberAndText.dart';
+export 'mySimpleWidget.dart';

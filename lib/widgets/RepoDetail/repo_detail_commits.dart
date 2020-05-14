@@ -65,14 +65,14 @@ Widget _commitItem(CommitItemBean commitData, BuildContext context) {
               child: Icon(
                 Icons.account_box,
                 color: Theme.of(context).primaryColor,
-                size: 36,
+                size: 32,
               ),
             ),
             Expanded(
               child: Text(
                 commitData.commit.committer.name,
                 style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: Theme.of(context).primaryColor),
               ),
@@ -88,11 +88,11 @@ Widget _commitItem(CommitItemBean commitData, BuildContext context) {
           ],
         ),
         Padding(
-          padding: EdgeInsets.only(top: 12.0, bottom: 12.0),
+          padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
           child: Text(
             commitData.commit.message ?? "",
             style: TextStyle(
-              fontSize: 17,
+              fontSize: 15,
             ),
           ),
         ),

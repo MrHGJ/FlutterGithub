@@ -37,7 +37,7 @@ class MyDrawer extends StatelessWidget {
         return GestureDetector(
           child: Container(
             color: Theme.of(context).primaryColor,
-            padding: EdgeInsets.only(top: 40, bottom: 20),
+            padding: EdgeInsets.only(top: 70, bottom: 50),
             child: Row(
               children: <Widget>[
                 Padding(
@@ -47,7 +47,7 @@ class MyDrawer extends StatelessWidget {
                     child: value.isLogin
                         ? gmAvatar(value.user.avatar_url, width: 80)
                         : Image.asset(
-                            "imgs/avatar-default.png",
+                            "imgs/avatar_default.png",
                             width: 80,
                           ),
                   ),
@@ -58,6 +58,7 @@ class MyDrawer extends StatelessWidget {
                       : GmLocalizations.of(context).login,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
+                    fontSize: 20,
                     color: Colors.white,
                   ),
                 )

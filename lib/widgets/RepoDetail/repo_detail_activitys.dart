@@ -86,11 +86,11 @@ Widget _eventItem(EventBean eventData, BuildContext context) {
           ],
         ),
         Padding(
-          padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+          padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
           child: Text(
             EventUtils.getActionAndDes(eventData)["actionStr"] ?? "",
             style: TextStyle(
-              fontSize: 17,
+              fontSize: 15,
             ),
           ),
         ),

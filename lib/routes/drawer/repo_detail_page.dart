@@ -17,20 +17,25 @@ class RepoDetailRoute extends StatefulWidget {
 }
 
 class _RepoDetailRouteState extends State<RepoDetailRoute>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin,AutomaticKeepAliveClientMixin {
   TabController tabController;
+  ///防止FutureBuilder进行不必要的重绘
+  var _futureBuilderFuture;
 
+  @override
+  bool get wantKeepAlive => true;
   @override
   void initState() {
     super.initState();
     tabController = TabController(length: 4, vsync: this);
+    _futureBuilderFuture = _getRepoDetailData();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-        future: _getRepoDetailData(),
+        future: _futureBuilderFuture,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           // 请求已结束
           if (snapshot.connectionState == ConnectionState.done) {

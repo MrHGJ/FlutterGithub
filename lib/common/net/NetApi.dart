@@ -182,6 +182,23 @@ class NetApi {
     return r.data.map((e) => FileBean.fromJson(e)).toList();
   }
 
+  //获取repo中代码内容
+  Future<String> getReposCodeFileContent(
+    String repoOwner,
+    String repoName,
+    String path,
+  ) async {
+    _options.method = "get";
+    _options.headers["Accept"] = 'application/vnd.github.html';
+    _options.headers["Authorization"] = await getAuthorization();
+    var url = Api.getRepoContent(repoOwner, repoName, path);
+    var r = await dio.request(
+      url,
+      options: _options,
+    );
+    return r.data;
+  }
+
   //获取trending repos 项目排行榜
   Future<List<TrendRepoBean>> getTrendingRepos(
       String since, String language) async {

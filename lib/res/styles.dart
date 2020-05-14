@@ -9,13 +9,28 @@ class MyColors {
     Colors.green,
     Colors.red
   ];
+
+  static const String primaryValueString = "#24292E";
+  static const String primaryLightValueString = "#42464b";
+  static const String primaryDarkValueString = "#121917";
+  static const String miWhiteString = "#ececec";
+  static const String actionBlueString = "#267aff";
+  static const String webDraculaBackgroundColorString = "#282a36";
+
   static const Color primaryValue = Color(0xFF24292E);
   static const Color primaryLightValue = Color(0xFF42464b);
   static const Color primaryDarkValue = Color(0xFF121917);
 
+  static const Color cardWhite = Color(0xFFFFFFFF);
+  static const Color textWhite = Color(0xFFFFFFFF);
   static const Color miWhite = Color(0xffececec);
-  static const Color subTextColor = Color(0xff959595);
   static const Color white = Color(0xFFFFFFFF);
+  static const Color actionBlue = Color(0xff267aff);
+  static const Color subTextColor = Color(0xff959595);
+  static const Color subLightTextColor = Color(0xffc4c4c4);
+
+  static const Color mainBackgroundColor = miWhite;
+
   static const Color mainTextColor = primaryDarkValue;
   static const Color textColorWhite = white;
 }

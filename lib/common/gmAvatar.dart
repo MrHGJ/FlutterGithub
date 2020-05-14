@@ -8,7 +8,7 @@ Widget gmAvatar(String url,{
   BorderRadius borderRadius,
 }){
   var placeholder = Image.asset(
-      "imgs/avatar-default.png", //头像占位图，加载过程中显示
+      "imgs/avatar_default.png", //头像占位图，加载过程中显示
       width: width,
       height: height
   );

@@ -17,7 +17,6 @@ class TrendDevelopersItem extends StatefulWidget {
 class _TrendDevelopersItemState extends State<TrendDevelopersItem> {
   @override
   Widget build(BuildContext context) {
-    var subtitile;
     return Padding(
       padding: const EdgeInsets.only(top: 12.0, left: 8.0, right: 8.0),
       child: Container(
@@ -36,20 +35,37 @@ class _TrendDevelopersItemState extends State<TrendDevelopersItem> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              ListTile(
-                dense: true,
-                leading: gmAvatar(
-                  //项目owner头像
-                  widget.trendDev.avatar,
-                  width: 24.0,
-                  borderRadius: BorderRadius.circular(12),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                child: Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(right: 15.0),
+                      child: gmAvatar(
+                        //项目owner头像
+                        widget.trendDev.avatar,
+                        width: 50.0,
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                    ),
+                    Expanded(
+                        child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(widget.trendDev.name ?? "",style: TextStyle(
+                          fontSize: 16
+                        ),),
+                        Text(
+                          widget.trendDev.username,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey
+                          ),
+                        ),
+                      ],
+                    )),
+                  ],
                 ),
-                title: Text(
-                  widget.trendDev.username,
-                  textScaleFactor: .9,
-                ),
-                subtitle: subtitile,
-                trailing: Text(widget.trendDev.name ?? ""),
               ),
               //构建项目标题和简介
               Padding(
@@ -60,12 +76,12 @@ class _TrendDevelopersItemState extends State<TrendDevelopersItem> {
                       Text(
                         widget.trendDev.repo.name,
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 8, bottom: 12),
+                        padding: const EdgeInsets.only(top: 8),
                         child: widget.trendDev.repo.description == null
                             ? Text(
                                 GmLocalizations.of(context).noDescription,

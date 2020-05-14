@@ -5,6 +5,7 @@ import 'package:fluttergithub/common/icons.dart';
 import 'package:fluttergithub/l10n/localization_intl.dart';
 import 'package:fluttergithub/models/index.dart';
 import 'package:fluttergithub/routes/drawer/repo_detail_page.dart';
+import 'package:fluttergithub/widgets/myWidgets/index.dart';
 
 class RepoItem extends StatefulWidget {
   // 将`repo.id`作为RepoItem的默认key
@@ -20,7 +21,6 @@ class RepoItem extends StatefulWidget {
 class _RepoItemState extends State<RepoItem> {
   @override
   Widget build(BuildContext context) {
-    var subtitile;
     return Padding(
       padding: const EdgeInsets.only(top: 12.0, left: 8.0, right: 8.0),
       child: GestureDetector(
@@ -40,20 +40,29 @@ class _RepoItemState extends State<RepoItem> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                ListTile(
-                  dense: true,
-                  leading: gmAvatar(
-                    //项目owner头像
-                    widget.repo.owner.avatar_url,
-                    width: 24.0,
-                    borderRadius: BorderRadius.circular(12),
+                Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                  child: Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(right: 15.0),
+                        child: gmAvatar(
+                          //项目owner头像
+                          widget.repo.owner.avatar_url,
+                          width: 30.0,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          widget.repo.owner.login,
+                          textScaleFactor: .9,
+                        ),
+                      ),
+                      languageWithPoint(widget.repo.language),
+                    ],
                   ),
-                  title: Text(
-                    widget.repo.owner.login,
-                    textScaleFactor: .9,
-                  ),
-                  subtitle: subtitile,
-                  trailing: Text(widget.repo.language ?? ""),
                 ),
                 //构建项目标题和简介
                 Padding(
@@ -66,7 +75,7 @@ class _RepoItemState extends State<RepoItem> {
                               ? widget.repo.full_name
                               : widget.repo.name,
                           style: TextStyle(
-                            fontSize: 15,
+                            fontSize: 17,
                             fontWeight: FontWeight.bold,
                             fontStyle: widget.repo.fork
                                 ? FontStyle.italic
@@ -115,7 +124,7 @@ class _RepoItemState extends State<RepoItem> {
 
   // 构建卡片底部信息
   Widget _buildBottom() {
-    const paddingWidth = 10;
+    const paddingWidth = 15;
     return IconTheme(
       data: IconThemeData(
         color: Colors.grey,
@@ -134,12 +143,13 @@ class _RepoItemState extends State<RepoItem> {
                       .padRight(paddingWidth)),
               Icon(MyIcons.fork),
               Text(" " +
-                  widget.repo.open_issues_count
-                      .toString()
-                      .padRight(paddingWidth)),
+                  widget.repo.forks_count.toString().padRight(paddingWidth)),
 
-              Icon(Icons.done), //我们的自定义图标
-              Text(widget.repo.forks_count.toString().padRight(paddingWidth)),
+              Icon(Icons.info), //我们的自定义图标
+              Padding(
+                padding: EdgeInsets.only(left: 5.0),
+                child: Text(widget.repo.open_issues_count.toString()),
+              ),
             ];
 
             if (widget.repo.fork) {
