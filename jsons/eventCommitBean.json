@@ -1,0 +1,7 @@
+{
+  "sha":"e5ca8bf4c1b4efa0fe095455b2525f4865308e1e",
+  "author":"$userBean",
+  "message":"fix: 修复repos详情页滑动冲突问题",
+  "distinct":true,
+  "url":"https://api.github.com/repos/MrHGJ/FlutterGithub/commits/e5ca8bf4c1b4efa0fe095455b2525f4865308e1e"
+}

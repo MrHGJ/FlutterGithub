@@ -90,5 +90,45 @@
     "@test": {
       "type": "text",
       "placeholders": {}
-    }
+    },
+  "trend": "排行榜",
+  "@trend": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "repos": "项目",
+  "@repos": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "developers": "开发者",
+  "@developers": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "info": "简介",
+  "@info": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "file": "文件",
+  "@file": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "commit": "提交记录",
+  "@commit": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "activity": "动态",
+  "@activity": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "size": "大小",
+  "@size": {
+    "type": "text",
+    "placeholders": {}
+  }
 }

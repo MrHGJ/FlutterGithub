@@ -1,0 +1,11 @@
+{
+  "push_id": 5054242182,
+  "size": 1,
+  "distinct_size": 1,
+  "ref": "refs/heads/dev/hgj",
+  "head": "e5ca8bf4c1b4efa0fe095455b2525f4865308e1e",
+  "before": "48a2664b1d8c7ff1ee2683ed6ecc63ad2809b365",
+  "commits": "$[]eventCommitBean",
+  "ref_type": "branch",
+  "action": "started"
+}

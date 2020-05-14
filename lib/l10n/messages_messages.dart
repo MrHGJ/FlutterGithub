@@ -21,9 +21,14 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "activity" : MessageLookupByLibrary.simpleMessage("ACTIVITY"),
     "auto" : MessageLookupByLibrary.simpleMessage("Auto"),
     "cancel" : MessageLookupByLibrary.simpleMessage("cancel"),
+    "commit" : MessageLookupByLibrary.simpleMessage("COMMIT"),
+    "developers" : MessageLookupByLibrary.simpleMessage("developers"),
+    "file" : MessageLookupByLibrary.simpleMessage("FILE"),
     "home" : MessageLookupByLibrary.simpleMessage("Github"),
+    "info" : MessageLookupByLibrary.simpleMessage("INFO"),
     "language" : MessageLookupByLibrary.simpleMessage("Language"),
     "login" : MessageLookupByLibrary.simpleMessage("Login"),
     "logout" : MessageLookupByLibrary.simpleMessage("logout"),
@@ -31,10 +36,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "noDescription" : MessageLookupByLibrary.simpleMessage("No description yet !"),
     "password" : MessageLookupByLibrary.simpleMessage("Password"),
     "passwordRequired" : MessageLookupByLibrary.simpleMessage("Password required!"),
+    "repos" : MessageLookupByLibrary.simpleMessage("repos"),
     "setting" : MessageLookupByLibrary.simpleMessage("Setting"),
+    "size" : MessageLookupByLibrary.simpleMessage("size"),
     "test" : MessageLookupByLibrary.simpleMessage("test"),
     "theme" : MessageLookupByLibrary.simpleMessage("Theme"),
     "title" : MessageLookupByLibrary.simpleMessage("Flutter APP"),
+    "trend" : MessageLookupByLibrary.simpleMessage("trend"),
     "userName" : MessageLookupByLibrary.simpleMessage("User Name"),
     "userNameOrPasswordWrong" : MessageLookupByLibrary.simpleMessage("User name or password is not correct!"),
     "userNameRequired" : MessageLookupByLibrary.simpleMessage("User name required!"),

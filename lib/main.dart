@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:fluttergithub/routes/login_page.dart';
-import 'package:fluttergithub/routes/test_page.dart';
-import 'package:fluttergithub/routes/theme_change_page.dart';
-import 'package:fluttergithub/states/LocaleModel.dart';
-import 'package:fluttergithub/states/ThemeModel.dart';
-import 'package:fluttergithub/states/UserModel.dart';
+import 'routes/login_page.dart';
 import 'package:provider/provider.dart';
 import 'common/Global.dart';
 import 'l10n/localization_intl.dart';
 import 'routes/home_page.dart';
-import 'routes/language_page.dart';
+import 'routes/drawer/index.dart';
+import 'states/index.dart';
 
 void main() => Global.init().then((e) => runApp(MyApp()));
 
@@ -27,7 +23,8 @@ class MyApp extends StatelessWidget {
           (BuildContext context, themeModel, localeModel, Widget child) {
         return MaterialApp(
           theme: ThemeData(
-            primarySwatch: themeModel.theme,
+            primaryColor: themeModel.theme,
+            primaryColorDark: themeModel.theme
           ),
           onGenerateTitle: (context) {
             return GmLocalizations.of(context).title;
@@ -69,7 +66,8 @@ class MyApp extends StatelessWidget {
             "login": (context) => LoginRoute(),
             "themes": (context) => ThemeChangeRoute(),
             "language": (context) => LanguageRoute(),
-            "test":(context)=>TestPage(),
+            "test":(context)=>TestRoute(),
+            "trend":(context)=>TrendRoute(),
           },
         );
       }),
