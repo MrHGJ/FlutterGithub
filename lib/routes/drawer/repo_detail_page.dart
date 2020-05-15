@@ -1,5 +1,10 @@
+import 'package:common_utils/common_utils.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttergithub/common/event/event_bus.dart';
+import 'package:fluttergithub/common/icons.dart';
 import 'package:fluttergithub/common/net/NetApi.dart';
+import 'package:fluttergithub/common/util/CommonUtil.dart';
 import 'package:fluttergithub/l10n/localization_intl.dart';
 import 'package:fluttergithub/models/index.dart';
 import 'package:fluttergithub/widgets/RepoDetail/index.dart';
@@ -19,6 +24,8 @@ class RepoDetailRoute extends StatefulWidget {
 
 class _RepoDetailRouteState extends State<RepoDetailRoute>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+  ///当前的项目分支
+  String curBranch;
   TabController tabController;
 
   ///防止FutureBuilder进行不必要的重绘
@@ -30,6 +37,8 @@ class _RepoDetailRouteState extends State<RepoDetailRoute>
   @override
   void initState() {
     super.initState();
+    //第一次进来默认展示master分支内容
+    curBranch = 'master';
     tabController = TabController(length: 4, vsync: this);
     _futureBuilderFuture = _getRepoDetailData();
   }
@@ -49,11 +58,7 @@ class _RepoDetailRouteState extends State<RepoDetailRoute>
               );
             } else {
               // 请求成功，显示数据
-              if (snapshot.data[0] is RepoDetailBean) {
-                return _repoDetailWidget(snapshot.data[0], snapshot.data[1]);
-              } else {
-                return _repoDetailWidget(snapshot.data[1], snapshot.data[0]);
-              }
+              return _repoDetailWidget(snapshot.data);
             }
           } else {
             // 请求未结束，显示loading
@@ -67,14 +72,11 @@ class _RepoDetailRouteState extends State<RepoDetailRoute>
   }
 
   Future _getRepoDetailData() async {
-    return Future.wait([
-      NetApi(context).getRepoDetail(widget.reposOwner, widget.reposName),
-      NetApi(context).getReadme(widget.reposOwner, widget.reposName)
-    ]);
+    return NetApi(context).getRepoDetail(widget.reposOwner, widget.reposName);
   }
 
   ///详情页内容
-  Widget _repoDetailWidget(RepoDetailBean repoData, ReadmeBean readmeData) {
+  Widget _repoDetailWidget(RepoDetailBean repoData) {
     var gm = GmLocalizations.of(context);
     var mTabs = <String>[gm.info, gm.file, gm.commit, gm.activity];
     return NestedScrollView(
@@ -99,6 +101,17 @@ class _RepoDetailRouteState extends State<RepoDetailRoute>
                 fit: BoxFit.cover,
               ),
             ),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(
+                  MyIcons.fork,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  _showRepoBranchDialog();
+                },
+              )
+            ],
             bottom: TabBar(
               labelColor: Colors.white,
               labelStyle: TextStyle(fontSize: 15.0),
@@ -117,12 +130,58 @@ class _RepoDetailRouteState extends State<RepoDetailRoute>
       body: TabBarView(
         controller: tabController,
         children: <Widget>[
-          DetailInfo(repoData, readmeData),
-          FileList(widget.reposOwner, widget.reposName),
-          CommitsList(widget.reposOwner, widget.reposName),
+          DetailInfo(repoData, curBranch),
+          FileList(widget.reposOwner, widget.reposName, curBranch),
+          CommitsList(widget.reposOwner, widget.reposName, curBranch),
           EventList(widget.reposOwner, widget.reposName)
         ],
       ),
     );
+  }
+
+  ///弹出分支选择对话框
+  Future<int> _showRepoBranchDialog() async {
+    showLoading(context);
+    List<BranchBean> branchList = await NetApi(context)
+        .getRepoBranch(widget.reposOwner, widget.reposName);
+    //关闭loading
+    Navigator.pop(context);
+    return showDialog<int>(
+        context: context,
+        builder: (context) {
+          return SimpleDialog(
+            title: Text("请选择分支："),
+            children: branchList.map((branchData) {
+              return SimpleDialogOption(
+                child: Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(vertical: 6),
+                    color: branchData.name == curBranch
+                        ? Colors.grey[200]
+                        : Colors.white,
+                    child: Row(
+                      children: <Widget>[
+                        Icon(MyIcons.fork),
+                        Padding(
+                          padding: EdgeInsets.only(left: 8),
+                          child: Text(branchData.name),
+                        ),
+                      ],
+                    )),
+                onPressed: () {
+                  if (curBranch != branchData.name) {
+                    showToast("已切换到 ${branchData.name} 分支");
+                    setState(() {
+                      curBranch = branchData.name;
+                    });
+                    //发送订阅事件
+                    eventBus.fire(BranchSwitchEvent(branchData.name));
+                  }
+                  Navigator.pop(context);
+                },
+              );
+            }).toList(),
+          );
+        });
   }
 }

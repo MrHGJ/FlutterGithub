@@ -8,6 +8,7 @@ export 'cacheConfigBean.dart' ;
 export 'trendDevSubBean.dart' ; 
 export 'eventCommitBean.dart' ; 
 export 'commiterBean.dart' ; 
+export 'branchBean.dart' ; 
 export 'trendDeveloperBean.dart' ; 
 export 'userBean.dart' ; 
 export 'trendRepoBean.dart' ; 

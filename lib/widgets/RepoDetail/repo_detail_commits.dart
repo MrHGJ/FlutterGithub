@@ -1,15 +1,18 @@
-import 'package:flukit/flukit.dart';
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttergithub/common/event/event_bus.dart';
 import 'package:fluttergithub/common/net/NetApi.dart';
+import 'package:fluttergithub/common/util/ListViewUtil.dart';
 import 'package:fluttergithub/common/util/RelativeDateUtil.dart';
 import 'package:fluttergithub/models/index.dart';
 import 'package:fluttergithub/widgets/myWidgets/index.dart';
 
 class CommitsList extends StatefulWidget {
-  CommitsList(this._reposOwner, this._reposName);
+  CommitsList(this._reposOwner, this._reposName, this._branch);
 
   final String _reposOwner;
   final String _reposName;
+  final String _branch;
 
   @override
   State<StatefulWidget> createState() {
@@ -19,21 +22,46 @@ class CommitsList extends StatefulWidget {
 
 class _CommitsListState extends State<CommitsList>
     with AutomaticKeepAliveClientMixin {
+  var mBranch;
+  //branch切换订阅事件
+  var _branchSubscription;
+  //手动触发列表刷新的key
+  final GlobalKey<RefreshIndicatorState> refreshIndicatorKey =
+  new GlobalKey<RefreshIndicatorState>();
+
   //导航栏切换时保持原有状态
   @override
   bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    super.initState();
+    mBranch = widget._branch;
+    //订阅切换分支事件
+    _branchSubscription = eventBus.on<BranchSwitchEvent>().listen((event) {
+      var curBranch = event.curBranch;
+      if (curBranch != mBranch) {
+        setState(() {
+          mBranch = curBranch;
+          refreshIndicatorKey.currentState.show(); //更新文件列表
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext mContext) {
     return MediaQuery.removePadding(
       removeTop: true,
       context: context,
-      child: InfiniteListView<CommitItemBean>(
+      child: MyInfiniteListView<CommitItemBean>(
+        refreshKey: refreshIndicatorKey,
         onRetrieveData:
             (int page, List<CommitItemBean> items, bool refresh) async {
           var data = await NetApi(context).getCommits(
             widget._reposOwner,
             widget._reposName,
+            branch: mBranch,
             queryParameters: {
               'page': page,
               'page_size': 30,
@@ -50,6 +78,12 @@ class _CommitsListState extends State<CommitsList>
         },
       ),
     );
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    //取消订阅事件
+    _branchSubscription.cancel();
   }
 }
 

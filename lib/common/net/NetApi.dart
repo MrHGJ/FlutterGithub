@@ -126,9 +126,22 @@ class NetApi {
     return RepoDetailBean.fromJson(response.data);
   }
 
+  //获取项目repo分支
+  Future<List<BranchBean>> getRepoBranch(
+      String repoOwner, String repoName) async {
+    var url = Api.getBranch(repoOwner, repoName);
+    _options.method = "get";
+    _options.headers["Authorization"] = await getAuthorization();
+    var response = await dio.request<List>(url, options: _options);
+    return response.data.map((e) => BranchBean.fromJson(e)).toList();
+  }
+
   //获取readme
-  Future<ReadmeBean> getReadme(String repoOwner, String repoName) async {
+  Future<ReadmeBean> getReadme({repoOwner, repoName, branch = 'master'}) async {
     var url = Api.getReadme(repoOwner, repoName);
+    if (branch != 'master') {
+      url += '?ref=' + branch;
+    }
     _options.method = "get";
     _options.headers["Authorization"] = await getAuthorization();
     var response = await dio.request(url, options: _options);
@@ -138,10 +151,13 @@ class NetApi {
   //获取repo的commits列表
   Future<List<CommitItemBean>> getCommits(String repoOwner, String repoName,
       {Map<String, dynamic> queryParameters, //query参数，用于接收分页信息
-      refresh = false}) async {
+      branch = 'master'}) async {
     _options.method = "get";
     _options.headers["Authorization"] = await getAuthorization();
     var url = Api.getRepoCommits(repoOwner, repoName);
+    if (branch != 'master') {
+      url += '?sha=' + branch;
+    }
     var r = await dio.request<List>(
       url,
       queryParameters: queryParameters,
@@ -169,10 +185,13 @@ class NetApi {
   Future<List<FileBean>> getReposContent(
       String repoOwner, String repoName, String path,
       {Map<String, dynamic> queryParameters, //query参数，用于接收分页信息
-      refresh = false}) async {
+      branch = 'master'}) async {
     _options.method = "get";
     _options.headers["Authorization"] = await getAuthorization();
     var url = Api.getRepoContent(repoOwner, repoName, path);
+    if (branch != 'master') {
+      url += '?ref=' + branch;
+    }
     var r = await dio.request<List>(
       url,
       queryParameters: queryParameters,
@@ -183,14 +202,15 @@ class NetApi {
 
   //获取repo中代码内容
   Future<String> getReposCodeFileContent(
-    String repoOwner,
-    String repoName,
-    String path,
-  ) async {
+      String repoOwner, String repoName, String path,
+      {branch = 'master'}) async {
     _options.method = "get";
     _options.headers["Accept"] = 'application/vnd.github.html';
     _options.headers["Authorization"] = await getAuthorization();
     var url = Api.getRepoContent(repoOwner, repoName, path);
+    if (branch != 'master') {
+      url += '?ref=' + branch;
+    }
     var r = await dio.request(
       url,
       options: _options,

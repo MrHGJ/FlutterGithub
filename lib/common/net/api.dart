@@ -21,6 +21,11 @@ class Api {
     return Constant.BASE_URL + "/repos/$repoOwner/$repoName";
   }
 
+  //获取当前项目分支
+  static getBranch(String repoOwner, String repoName) {
+    return '${Constant.BASE_URL}/repos/$repoOwner/$repoName/branches';
+  }
+
   //获取Readme.md内容
   static getReadme(String repoOwner, String repoName) {
     return "${Constant.BASE_URL}/repos/$repoOwner/$repoName/readme";
@@ -45,10 +50,12 @@ class Api {
   static getStarredRepos(String userName) {
     return "${Constant.BASE_URL}/users/$userName/starred";
   }
+
   //获取用户动态列表
   static getUserEvents(String userName) {
     return "${Constant.BASE_URL}/users/$userName/events";
   }
+
   //userName关注的人
   static getUserFollowing(userName) {
     return "${Constant.BASE_URL}/users/$userName/following?";
@@ -58,6 +65,7 @@ class Api {
   static getUserFollower(userName) {
     return "${Constant.BASE_URL}/users/$userName/followers?";
   }
+
   //趋势项目
   static getTrendingRepos(String since, String language) {
     return "https://github-trending-api.now.sh/repositories?language=$language&since=$since";

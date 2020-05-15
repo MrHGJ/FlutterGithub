@@ -2,9 +2,11 @@ import 'package:flukit/flukit.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttergithub/common/myAvatar.dart';
 import 'package:fluttergithub/common/net/NetApi.dart';
+import 'package:fluttergithub/common/util/CommonUtil.dart';
 import 'package:fluttergithub/common/util/RelativeDateUtil.dart';
 import 'package:fluttergithub/common/util/ReposEventUtil.dart';
 import 'package:fluttergithub/models/index.dart';
+import 'package:fluttergithub/routes/person_detail_page.dart';
 import 'package:fluttergithub/widgets/myWidgets/index.dart';
 
 class EventList extends StatefulWidget {
@@ -61,15 +63,23 @@ Widget _eventItem(EventBean eventData, BuildContext context) {
       children: <Widget>[
         Row(
           children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(right: 12.0),
-              child: myAvatar(
-                eventData.actor.avatar_url,
-                width: 36.0,
-                height: 36.0,
-                borderRadius: BorderRadius.circular(36),
-              ),
-            ),
+            InkWell(
+                child: Padding(
+                  padding: EdgeInsets.only(right: 12.0),
+                  child: myAvatar(
+                    eventData.actor.avatar_url,
+                    width: 36.0,
+                    height: 36.0,
+                    borderRadius: BorderRadius.circular(36),
+                  ),
+                ),
+                onTap: () {
+                  goToPage(
+                      context: context,
+                      page: PersonDetailPage(
+                        name: eventData.actor.login,
+                      ));
+                }),
             Expanded(
               child: Text(
                 eventData.actor.login ?? "",

@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttergithub/common/myAvatar.dart';
 import 'package:fluttergithub/common/icons.dart';
+import 'package:fluttergithub/common/util/CommonUtil.dart';
 import 'package:fluttergithub/l10n/localization_intl.dart';
 import 'package:fluttergithub/models/index.dart';
 import 'package:fluttergithub/routes/drawer/repo_detail_page.dart';
+import 'package:fluttergithub/routes/person_detail_page.dart';
 import 'package:fluttergithub/widgets/myWidgets/index.dart';
 
 class RepoItem extends StatefulWidget {
@@ -45,14 +47,19 @@ class _RepoItemState extends State<RepoItem> {
                       EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
                   child: Row(
                     children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(right: 15.0),
-                        child: myAvatar(
-                          //项目owner头像
-                          widget.repo.owner.avatar_url,
-                          width: 30.0,
-                          borderRadius: BorderRadius.circular(30),
+                      InkWell(
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 15.0),
+                          child: myAvatar(
+                            //项目owner头像
+                            widget.repo.owner.avatar_url,
+                            width: 30.0,
+                            borderRadius: BorderRadius.circular(30),
+                          ),
                         ),
+                        onTap: (){
+                          goToPage(context: context,page: PersonDetailPage(name: widget.repo.owner.login,));
+                        },
                       ),
                       Expanded(
                         child: Text(
@@ -110,13 +117,7 @@ class _RepoItemState extends State<RepoItem> {
           ),
         ),
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>
-                  RepoDetailRoute(widget.repo.owner.login, widget.repo.name),
-            ),
-          );
+          goToPage(context: context,page: RepoDetailRoute(widget.repo.owner.login, widget.repo.name));
         },
       ),
     );

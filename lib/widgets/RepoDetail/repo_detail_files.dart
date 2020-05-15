@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttergithub/common/event/event_bus.dart';
 import 'package:fluttergithub/common/net/NetApi.dart';
 import 'package:fluttergithub/common/util/CommonUtil.dart';
 import 'package:fluttergithub/common/util/ListViewUtil.dart';
@@ -7,10 +8,11 @@ import 'package:fluttergithub/routes/FileView/code_detail_web.dart';
 import 'package:fluttergithub/routes/FileView/photo_view_page.dart';
 
 class FileList extends StatefulWidget {
-  FileList(this._reposOwner, this._reposName);
+  FileList(this._reposOwner, this._reposName, this._branch);
 
   final String _reposOwner;
   final String _reposName;
+  final String _branch;
 
   @override
   State<StatefulWidget> createState() {
@@ -20,11 +22,31 @@ class FileList extends StatefulWidget {
 
 class _FileListState extends State<FileList>
     with AutomaticKeepAliveClientMixin<FileList> {
+  String mBranch;
   String path = "";
   List<String> headerList = ["."]; //文件列表头部，保存当前的文件路径
-  ///这个key用来在不是手动下拉，而是点击某个button或其它操作时，代码直接触发下拉刷新
+
+  //branch切换订阅事件
+  var _branchSubscription;
+  //这个key用来在不是手动下拉，而是点击某个button或其它操作时，代码直接触发下拉刷新
   final GlobalKey<RefreshIndicatorState> refreshIndicatorKey =
-      new GlobalKey<RefreshIndicatorState>();
+  new GlobalKey<RefreshIndicatorState>();
+
+  @override
+  void initState() {
+    mBranch = widget._branch;
+    //订阅切换分支事件
+    _branchSubscription = eventBus.on<BranchSwitchEvent>().listen((event) {
+      var curBranch = event.curBranch;
+      if (curBranch != mBranch) {
+        setState(() {
+          mBranch = curBranch;
+          refreshIndicatorKey.currentState.show(); //更新文件列表
+        });
+      }
+    });
+    super.initState();
+  }
 
   ///头部列表
   Widget _renderHeader(BuildContext context) {
@@ -133,12 +155,13 @@ class _FileListState extends State<FileList>
             MaterialPageRoute(
                 builder: (context) =>
                     PhotoViewPage(fileData.html_url + "?raw=true")));
-      }else{
+      } else {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    CodeDetailWeb(widget._reposOwner,widget._reposName,fileData.name,filePath)));
+                builder: (context) => CodeDetailWeb(widget._reposOwner,
+                    widget._reposName, fileData.name, filePath,
+                    branch: mBranch)));
       }
     }
   }
@@ -178,6 +201,7 @@ class _FileListState extends State<FileList>
                     widget._reposOwner,
                     widget._reposName,
                     path,
+                    branch: mBranch,
                     queryParameters: {
                       'page': page,
                       'page_size': 30,
@@ -202,6 +226,13 @@ class _FileListState extends State<FileList>
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    //取消订阅事件
+    _branchSubscription.cancel();
   }
 }
 
