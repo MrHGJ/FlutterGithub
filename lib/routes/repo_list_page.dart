@@ -1,32 +1,35 @@
 import 'package:flukit/flukit.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttergithub/common/net/NetApi.dart';
 import 'package:fluttergithub/models/index.dart';
 import 'package:fluttergithub/widgets/RepoItem.dart';
 
-class RepoListPage extends StatefulWidget {
-  RepoListPage({@required this.personName, @required this.isStarredRepoList});
+//repo列表，包含titleBar，
+class RepoListRoute extends StatefulWidget {
+  RepoListRoute(
+      {@required this.title,
+      @required this.personName,
+      @required this.isStarredRepoList});
 
+  final String title;
   final String personName;
   final bool isStarredRepoList;
 
   @override
   State<StatefulWidget> createState() {
-    return _RepoListPageState();
+    return _RepoListRouteState();
   }
 }
 
-class _RepoListPageState extends State<RepoListPage>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
-
+class _RepoListRouteState extends State<RepoListRoute> {
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.removePadding(
-      removeTop: true,
-      context: context,
-      child: InfiniteListView<RepoBean>(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: InfiniteListView<RepoBean>(
         onRetrieveData: (int page, List<RepoBean> items, bool refresh) async {
           var data;
           if (!widget.isStarredRepoList) {
@@ -59,27 +62,4 @@ class _RepoListPageState extends State<RepoListPage>
       ),
     );
   }
-}
-
-repoListWidget({BuildContext context, String userName}) {
-  return InfiniteListView<RepoBean>(
-    onRetrieveData: (int page, List<RepoBean> items, bool refresh) async {
-      var data = await NetApi(context).getRepos(
-        repoOwner: userName,
-        refresh: refresh,
-        queryParameters: {
-          'page': page,
-          'page_size': 30,
-        },
-      );
-      //把请求到的新数据添加到items中
-      items.addAll(data);
-      // 如果接口返回的数量等于'page_size'，则认为还有数据，反之则认为最后一页
-      return data.length == 30;
-    },
-    itemBuilder: (List list, int index, BuildContext ctx) {
-      // 项目信息列表项
-      return RepoItem(list[index]);
-    },
-  );
 }

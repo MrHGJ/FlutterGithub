@@ -66,6 +66,15 @@ class Api {
     return "${Constant.BASE_URL}/users/$userName/followers?";
   }
 
+  ///搜索
+  ///type: repositories(搜索仓库)，users(搜索用户)
+  ///searchWords: 搜索的关键词
+  ///sort: 排序的方式，例如Best Match, Most Stars...
+  ///order ： desc(降序)， asc(升序)
+  static search(type, searchWords, sort, order) {
+    return "${Constant.BASE_URL}/search/$type?q=$searchWords&sort=$sort&order=$order";
+  }
+
   //趋势项目
   static getTrendingRepos(String since, String language) {
     return "https://github-trending-api.now.sh/repositories?language=$language&since=$since";

@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttergithub/common/delegate/index.dart';
 import 'package:fluttergithub/common/myAvatar.dart';
 import 'package:fluttergithub/common/net/NetApi.dart';
 import 'package:fluttergithub/l10n/localization_intl.dart';
@@ -52,7 +53,7 @@ class _PersonDetailState extends State<PersonDetailPage>
           //一个状态栏大小的背景，防止上滑后TabBar一部分显示在状态栏中
           SliverPersistentHeader(
             pinned: true,
-            delegate: _SliverDelegate(
+            delegate: MySliverPersistentHeaderDelegate(
               minHeight: statusBarHeight,
               maxHeight: statusBarHeight,
               child: Container(
@@ -65,7 +66,7 @@ class _PersonDetailState extends State<PersonDetailPage>
           //卡片中的内容
           SliverPersistentHeader(
             pinned: false,
-            delegate: _SliverDelegate(
+            delegate: MySliverPersistentHeaderDelegate(
               minHeight: 200,
               maxHeight: 200,
               child: Stack(
@@ -96,10 +97,10 @@ class _PersonDetailState extends State<PersonDetailPage>
               ),
             ),
           ),
-          //状态栏
+          //tab栏
           SliverPersistentHeader(
             pinned: true,
-            delegate: _SliverDelegate(
+            delegate: MySliverPersistentHeaderDelegate(
               minHeight: 50,
               maxHeight: 50,
               child: Container(
@@ -252,36 +253,5 @@ class _PersonDetailState extends State<PersonDetailPage>
 
   Future _getNetData() async {
     return NetApi(context).getUserInfo(widget.name);
-  }
-}
-
-class _SliverDelegate extends SliverPersistentHeaderDelegate {
-  _SliverDelegate(
-      {@required this.minHeight,
-      @required this.maxHeight,
-      @required this.child});
-
-  final double minHeight;
-  final double maxHeight;
-  final Widget child;
-
-  @override
-  double get minExtent => minHeight;
-
-  @override
-  double get maxExtent => max(maxHeight, minHeight);
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return new SizedBox.expand(
-      child: child,
-    );
-  }
-
-  @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
-    return maxHeight != oldDelegate.maxExtent ||
-        minHeight != oldDelegate.minExtent;
   }
 }

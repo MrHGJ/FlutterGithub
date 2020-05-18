@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:fluttergithub/common/Global.dart';
 import 'package:fluttergithub/common/constant/constant.dart';
 import 'package:fluttergithub/common/myAvatar.dart';
+import 'package:fluttergithub/common/util/CommonUtil.dart';
 import 'package:fluttergithub/l10n/localization_intl.dart';
-import 'package:fluttergithub/routes/drawer/repo_detail_page.dart';
+import 'package:fluttergithub/routes/repo_detail_page.dart';
 import 'package:fluttergithub/routes/person_detail_page.dart';
+import 'package:fluttergithub/routes/repo_list_page.dart';
+import 'package:fluttergithub/routes/search_page.dart';
 import 'package:fluttergithub/states/UserModel.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +16,6 @@ class MyDrawer extends StatelessWidget {
   const MyDrawer({
     Key key,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -97,15 +99,24 @@ class MyDrawer extends StatelessWidget {
               onTap: () => Navigator.pushNamed(context, "trend"),
             ),
             ListTile(
-              leading: const Icon(Icons.radio),
-              title: Text("项目详情"),
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      RepoDetailRoute("MrHGJ", "FlutterGithub"),
-                ),
-              ),
+                leading: const Icon(Icons.folder_shared),
+                title: Text("我的仓库"),
+                onTap: (){goToPage(context: context, page:RepoListRoute(title: "我的仓库",personName: UserModel().user.login,isStarredRepoList: false,));}
+            ),
+            ListTile(
+                leading: const Icon(Icons.star),
+                title: Text("我star的项目"),
+                onTap: (){goToPage(context: context, page: RepoListRoute(title: "我star的项目",personName: UserModel().user.login,isStarredRepoList: true,));}
+            ),
+            ListTile(
+                leading: const Icon(Icons.search),
+                title: Text("搜索"),
+                onTap: (){goToPage(context: context, page: SearchPage());}
+            ),
+            ListTile(
+              leading: const Icon(Icons.android),
+              title: Text("浏览本项目"),
+              onTap: () => goToPage(context: context, page: RepoDetailRoute("MrHGJ","FlutterGithub"))
             ),
             ListTile(
               leading: const Icon(Icons.color_lens),

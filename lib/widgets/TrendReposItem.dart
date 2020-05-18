@@ -4,7 +4,7 @@ import 'package:fluttergithub/common/icons.dart';
 import 'package:fluttergithub/common/util/CommonUtil.dart';
 import 'package:fluttergithub/l10n/localization_intl.dart';
 import 'package:fluttergithub/models/index.dart';
-import 'package:fluttergithub/routes/drawer/repo_detail_page.dart';
+import 'package:fluttergithub/routes/repo_detail_page.dart';
 import 'package:fluttergithub/routes/person_detail_page.dart';
 import 'package:fluttergithub/widgets/myWidgets/index.dart';
 

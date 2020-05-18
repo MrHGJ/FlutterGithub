@@ -25,7 +25,7 @@ class _LoginRouteState extends State<LoginRoute> {
   void initState() {
     // 自动填充上次登录的用户名和密码，填充后将焦点定位到密码输入框
     //_unameController.text = Global.profile.lastLogin;
-    _unameController.text = Global.prefs.getString(Constant.USER_NAME_KEY);
+    _unameController.text = Global.prefs.getString(Constant.USER_LOGIN_KEY);
     _pwdController.text = Global.prefs.getString(Constant.PASSWORD_KEY);
     if (_unameController.text != null) {
       _nameAutoFocus = false;

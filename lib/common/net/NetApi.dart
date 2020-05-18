@@ -76,7 +76,7 @@ class NetApi {
   Future<UserBean> login(String username, String pwd) async {
     String basic = 'Basic ' + base64.encode(utf8.encode('$username:$pwd'));
     //存储用户名、密码、basic到sp
-    Global.prefs.setString(Constant.USER_NAME_KEY, username);
+    Global.prefs.setString(Constant.USER_LOGIN_KEY, username);
     Global.prefs.setString(Constant.PASSWORD_KEY, pwd);
     Global.prefs.setString(Constant.BASIC_KEY, basic);
 
@@ -93,7 +93,9 @@ class NetApi {
     _options.headers["Authorization"] = await getAuthorization();
     //Basic TXJIR0o6SGdqOTQwNjI3
     var response = await dio.request(urlLogin, options: _options);
-    return UserBean.fromJson(response.data);
+    UserBean data = UserBean.fromJson(response.data);
+    Global.prefs.setString(Constant.USER_NAME_KEY, data.login);
+    return data;
   }
 
   //获取用户项目列表
@@ -274,6 +276,41 @@ class NetApi {
       options: _options,
     );
     return response.data.map((e) => UserBean.fromJson(e)).toList();
+  }
+
+  //搜索仓库
+  Future<List<RepoBean>> searchRepos(
+      {@required String keyWords,
+      String sort='best match',
+      String order='desc',
+      Map<String, dynamic> queryParameters}) async{
+    String type = 'repositories';
+    _options.method = "get";
+    _options.headers["Authorization"] = await getAuthorization();
+    var url = Api.search(type, keyWords, sort, order);
+    var response = await dio.request(
+      url,
+      queryParameters: queryParameters,
+      options: _options,
+    );
+    return response.data['items'].map<RepoBean>((e) => RepoBean.fromJson(e)).toList();
+  }
+  //搜索仓库
+  Future<List<UserBean>> searchUsers(
+      {@required String keyWords,
+        String sort='best match',
+        String order='desc',
+        Map<String, dynamic> queryParameters}) async{
+    String type = 'users';
+    _options.method = "get";
+    _options.headers["Authorization"] = await getAuthorization();
+    var url = Api.search(type, keyWords, sort, order);
+    var response = await dio.request(
+      url,
+      queryParameters: queryParameters,
+      options: _options,
+    );
+    return response.data['items'].map<UserBean>((e) => UserBean.fromJson(e)).toList();
   }
 
   //获取trending repos 项目排行榜

@@ -5,6 +5,7 @@ import 'package:fluttergithub/common/myAvatar.dart';
 import 'package:fluttergithub/common/net/NetApi.dart';
 import 'package:fluttergithub/models/index.dart';
 import 'package:fluttergithub/routes/person_detail_page.dart';
+import 'package:fluttergithub/widgets/PersonItem.dart';
 import 'package:fluttergithub/widgets/myWidgets/index.dart';
 
 class PersonFollowList extends StatefulWidget {
@@ -47,44 +48,11 @@ class _PersonFollowListState extends State<PersonFollowList>
         },
         itemBuilder: (List list, int index, BuildContext ctx) {
           // 项目信息列表项
-          return _personItem(list[index], mContext);
+          return PersonItem(personData: list[index],);
         },
       ),
     );
   }
 }
 
-_personItem(UserBean personData, BuildContext context) {
-  return GestureDetector(
-    child: MyCard(
-      child: Row(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(right: 15.0),
-            child:  myAvatar(
-              personData.avatar_url,
-              width: 36.0,
-              height: 36.0,
-              borderRadius: BorderRadius.circular(36),
-            ),
-          ),
-          Text(
-            personData.login,
-            style: TextStyle(
-                fontSize: 20,
-                color: Theme.of(context).primaryColor),
-          ),
-        ],
-      ),
-    ),
-    onTap:(){
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>
-              PersonDetailPage(name:personData.login),
-        ),
-      );
-    },)
-  ;
-}
+

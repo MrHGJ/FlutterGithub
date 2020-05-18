@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttergithub/common/net/NetApi.dart';
+import 'package:fluttergithub/common/util/CommonUtil.dart';
+import 'package:fluttergithub/res/styles.dart';
 
 class TestRoute extends StatefulWidget{
   @override
@@ -9,38 +11,58 @@ class TestRoute extends StatefulWidget{
 }
 
 class _TestRouteState extends State<TestRoute>{
-  @override
-  Widget build(BuildContext context) {
-    ListView childListView = ListView.builder(
-      itemCount: 10,
-      //shrinkWrap: true,
-      //physics: NeverScrollableScrollPhysics(),
-      itemBuilder: (BuildContext context, int index) {
-        return Container(
-          color: Colors.primaries[index % Colors.primaries.length],
-          child: SizedBox(
-            width: 100.0,
-            height: 50.0 + ((27 * index) % 15) * 3.14,
-            child: Center(
-              child: Text('$index'),
-            ),
+  List<String>  historyData = [
+    '但是减肥啊',
+    '动机了',
+    '附近的撒',
+  ];
+  Widget _buildHistoryItem(position){
+    return InkWell(
+      child: Container(
+        padding: EdgeInsets.symmetric(
+            vertical: 5, horizontal: 10),
+        margin: EdgeInsets.only(right: 10),
+        color: MyColors.miWhite,
+        child: Center(
+          child: Text(
+            historyData[position],
+            style: TextStyle(fontSize: 14),
           ),
-        );
+        ),
+      ),
+      onTap: () {
+
       },
     );
+  }
+  @override
+  Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text("测试"),
       ),
-      body: ListView.builder(
-        itemCount: 5,
-        itemBuilder: (BuildContext context, int index) {
-          return childListView;
+      body:  GestureDetector(
+        child:Container(
+            padding: EdgeInsets.all( 30),
+
+            height: 100,
+            width: double.infinity,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: historyData.length,
+              itemBuilder: (BuildContext context, int index) {
+                return _buildHistoryItem(index);
+              },
+            )
+        ) ,
+        onTap: (){
+          showToast("点了");
+          setState(() {
+            historyData.clear();
+          });
         },
-      ),
+      )
     );
-  }
-  getNetData()async{
-    return await NetApi(context).getRepoDetail("MrHGJ", "FlutterGithub");
   }
 }
