@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttergithub/common/Global.dart';
 import 'package:fluttergithub/common/constant/constant.dart';
+import 'package:fluttergithub/common/icons.dart';
 import 'package:fluttergithub/common/myAvatar.dart';
 import 'package:fluttergithub/common/util/CommonUtil.dart';
 import 'package:fluttergithub/l10n/localization_intl.dart';
+import 'package:fluttergithub/routes/drawer/repos_history_page.dart';
 import 'package:fluttergithub/routes/repo_detail_page.dart';
 import 'package:fluttergithub/routes/person_detail_page.dart';
 import 'package:fluttergithub/routes/repo_list_page.dart';
@@ -107,6 +109,11 @@ class MyDrawer extends StatelessWidget {
                 leading: const Icon(Icons.star),
                 title: Text("我star的项目"),
                 onTap: (){goToPage(context: context, page: RepoListRoute(title: "我star的项目",personName: UserModel().user.login,isStarredRepoList: true,));}
+            ),
+            ListTile(
+                leading: const Icon(MyIcons.footprint_fill),
+                title: Text("足迹"),
+                onTap: (){goToPage(context: context, page: RepoHistoryPage());}
             ),
             ListTile(
                 leading: const Icon(Icons.search),

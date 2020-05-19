@@ -5,6 +5,7 @@ import 'package:fluttergithub/common/event/event_bus.dart';
 import 'package:fluttergithub/common/icons.dart';
 import 'package:fluttergithub/common/net/NetApi.dart';
 import 'package:fluttergithub/common/util/CommonUtil.dart';
+import 'package:fluttergithub/db/dao/repo_history_dao.dart';
 import 'package:fluttergithub/l10n/localization_intl.dart';
 import 'package:fluttergithub/models/index.dart';
 import 'package:fluttergithub/widgets/RepoDetail/index.dart';
@@ -72,7 +73,12 @@ class _RepoDetailRouteState extends State<RepoDetailRoute>
   }
 
   Future _getRepoDetailData() async {
-    return NetApi(context).getRepoDetail(widget.reposOwner, widget.reposName);
+    RepoDetailBean repoDetail = await NetApi(context).getRepoDetail(widget.reposOwner, widget.reposName);
+    RepoDaoBean repoDao = new RepoDaoBean();
+    repoDao = repoDao.fromRepoDetailBean(repoDetail);
+    RepoHistoryDao dao = new RepoHistoryDao();
+    await dao.insert(repoDao);
+    return repoDetail;
   }
 
   ///详情页内容

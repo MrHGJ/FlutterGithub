@@ -21,4 +21,6 @@ class MyIcons {
   static const IconData modified_circle = IconData(0xe71f,fontFamily: 'fileIcon');
   static const IconData renamed_circle = IconData(0xe776,fontFamily: 'fileIcon');
 
+  static const IconData footprint_fill = IconData(0xe690,fontFamily: 'fileIcon');
+
 }

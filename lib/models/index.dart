@@ -16,6 +16,7 @@ export 'trendDeveloperBean.dart' ;
 export 'userBean.dart' ; 
 export 'trendRepoBean.dart' ; 
 export 'eventBean.dart' ; 
+export 'RepoDaoBean.dart' ; 
 export 'repoOwnerBean.dart' ; 
 export 'repoBean.dart' ; 
 export 'commitContentBean.dart' ; 
