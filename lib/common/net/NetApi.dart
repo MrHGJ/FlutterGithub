@@ -168,6 +168,23 @@ class NetApi {
     return r.data.map((e) => CommitItemBean.fromJson(e)).toList();
   }
 
+  //获取repo的commits详情
+  Future<CommitDetailBean> getCommitsDetail(
+      String repoOwner, String repoName, String sha,
+      {branch = 'master'}) async {
+    _options.method = "get";
+    _options.headers["Authorization"] = await getAuthorization();
+    var url = Api.getRepoCommitsDetail(repoOwner, repoName, sha);
+    if (branch != 'master') {
+      url += '?sha=' + branch;
+    }
+    var r = await dio.request(
+      url,
+      options: _options,
+    );
+    return CommitDetailBean.fromJson(r.data);
+  }
+
   //获取repo的activity列表
   Future<List<EventBean>> getEvents(String repoOwner, String repoName,
       {Map<String, dynamic> queryParameters, //query参数，用于接收分页信息
@@ -281,9 +298,9 @@ class NetApi {
   //搜索仓库
   Future<List<RepoBean>> searchRepos(
       {@required String keyWords,
-      String sort='best match',
-      String order='desc',
-      Map<String, dynamic> queryParameters}) async{
+      String sort = 'best match',
+      String order = 'desc',
+      Map<String, dynamic> queryParameters}) async {
     String type = 'repositories';
     _options.method = "get";
     _options.headers["Authorization"] = await getAuthorization();
@@ -293,14 +310,17 @@ class NetApi {
       queryParameters: queryParameters,
       options: _options,
     );
-    return response.data['items'].map<RepoBean>((e) => RepoBean.fromJson(e)).toList();
+    return response.data['items']
+        .map<RepoBean>((e) => RepoBean.fromJson(e))
+        .toList();
   }
+
   //搜索仓库
   Future<List<UserBean>> searchUsers(
       {@required String keyWords,
-        String sort='best match',
-        String order='desc',
-        Map<String, dynamic> queryParameters}) async{
+      String sort = 'best match',
+      String order = 'desc',
+      Map<String, dynamic> queryParameters}) async {
     String type = 'users';
     _options.method = "get";
     _options.headers["Authorization"] = await getAuthorization();
@@ -310,7 +330,9 @@ class NetApi {
       queryParameters: queryParameters,
       options: _options,
     );
-    return response.data['items'].map<UserBean>((e) => UserBean.fromJson(e)).toList();
+    return response.data['items']
+        .map<UserBean>((e) => UserBean.fromJson(e))
+        .toList();
   }
 
   //获取trending repos 项目排行榜

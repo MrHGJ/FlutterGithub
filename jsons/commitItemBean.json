@@ -1,4 +1,5 @@
 {
   "sha":"34be3c87120650c72de7b109ea5af3b957c64a48",
-  "commit":"$commitContentBean"
+  "commit":"$commitContentBean",
+  "committer": "$userBean"
 }

@@ -96,7 +96,7 @@ String decodeBase64(String data) {
 ///判断文件是否是Image类型
 const IMAGE_END = [".png", ".jpg", ".jpeg", ".gif", ".svg"];
 
-isImageEnd(path) {
+isImageEnd(String path) {
   bool image = false;
   for (String item in IMAGE_END) {
     if (path.indexOf(item) + item.length == path.length) {

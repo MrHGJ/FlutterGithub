@@ -1,0 +1,8 @@
+{
+  "sha": "d24e000336ae41d7f38b359c18703b65daefe449",
+  "node_id": "MDY6Q29tbWl0MjYyMzQ2MzU0OmQyNGUwMDAzMzZhZTQxZDdmMzhiMzU5YzE4NzAzYjY1ZGFlZmU0NDk=",
+  "commit": "$commitContentBean",
+  "committer": "$userBean",
+  "stats": "$commitDetailStatsBean",
+  "files": "$[]commitDetailFileBean"
+}

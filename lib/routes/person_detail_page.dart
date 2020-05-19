@@ -160,10 +160,7 @@ class _PersonDetailState extends State<PersonDetailPage>
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(right: 25),
-                  child:Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
+                  child:
                       GestureDetector(
                         child: myAvatar(personData.avatar_url,
                             width: 80, borderRadius: BorderRadius.circular(80.0)),
@@ -177,18 +174,7 @@ class _PersonDetailState extends State<PersonDetailPage>
                           );
                         },
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 5),
-                        child: Text(
-                          personData.name??"",
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -211,6 +197,16 @@ class _PersonDetailState extends State<PersonDetailPage>
                   ],
                 ),
               ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 5),
+            child: Text(
+              personData.name??"",
+              style: TextStyle(
+                fontSize: 15,
+                color: Colors.white,
+              ),
             ),
           ),
           Text(

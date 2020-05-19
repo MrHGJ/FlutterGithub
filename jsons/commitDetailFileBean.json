@@ -1,0 +1,12 @@
+{
+  "sha": "feec31812f476de5c8e2f765cbd7f99e738575bb",
+  "filename": "jsons/repoBean.json",
+  "status": "modified",
+  "additions": 1,
+  "deletions": 8,
+  "changes": 9,
+  "blob_url": "https://github.com/MrHGJ/FlutterGithub/blob/d24e000336ae41d7f38b359c18703b65daefe449/jsons/repoBean.json",
+  "raw_url": "https://github.com/MrHGJ/FlutterGithub/raw/d24e000336ae41d7f38b359c18703b65daefe449/jsons/repoBean.json",
+  "contents_url": "https://api.github.com/repos/MrHGJ/FlutterGithub/contents/jsons/repoBean.json?ref=d24e000336ae41d7f38b359c18703b65daefe449",
+  "patch": ""
+}

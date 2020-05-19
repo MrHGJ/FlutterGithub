@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttergithub/common/event/event_bus.dart';
+import 'package:fluttergithub/common/icons.dart';
 import 'package:fluttergithub/common/net/NetApi.dart';
 import 'package:fluttergithub/common/util/CommonUtil.dart';
 import 'package:fluttergithub/common/util/ListViewUtil.dart';
@@ -28,9 +29,10 @@ class _FileListState extends State<FileList>
 
   //branch切换订阅事件
   var _branchSubscription;
+
   //这个key用来在不是手动下拉，而是点击某个button或其它操作时，代码直接触发下拉刷新
   final GlobalKey<RefreshIndicatorState> refreshIndicatorKey =
-  new GlobalKey<RefreshIndicatorState>();
+      new GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
@@ -159,9 +161,13 @@ class _FileListState extends State<FileList>
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => CodeDetailWeb(widget._reposOwner,
-                    widget._reposName, fileData.name, filePath,
-                    branch: mBranch)));
+                builder: (context) => CodeDetailWeb(
+                      repoOwner: widget._reposOwner,
+                      repoName: widget._reposName,
+                      title: fileData.name,
+                      filePath: filePath,
+                      branch: mBranch,
+                    )));
       }
     }
   }
@@ -245,7 +251,7 @@ Widget _fileIcon(String type, BuildContext context) {
     );
   } else {
     return Icon(
-      Icons.subject,
+      MyIcons.file_text,
       color: Theme.of(context).primaryColor,
       size: 30,
     );

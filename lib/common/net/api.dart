@@ -36,6 +36,11 @@ class Api {
     return "${Constant.BASE_URL}/repos/$repoOwner/$repoName/commits";
   }
 
+  //获取commits详情列表
+  static getRepoCommitsDetail(String repoOwner, String repoName, String sha) {
+    return "${Constant.BASE_URL}/repos/$repoOwner/$repoName/commits/$sha";
+  }
+
   //获取项目动态列表
   static getRepoEvents(String repoOwner, String repoName) {
     return "${Constant.BASE_URL}/repos/$repoOwner/$repoName/events";

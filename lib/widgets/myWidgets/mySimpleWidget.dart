@@ -81,9 +81,9 @@ Widget languageWithPoint(String language) {
   );
 }
 
-Widget infoWithIcon(message, icon,iconSize) {
-  if(message==null||message.length==0){
-    message="目前什么都没有";
+Widget infoWithIcon(message, icon, iconSize) {
+  if (message == null || message.length == 0) {
+    message = "目前什么都没有";
   }
   return Row(
     children: <Widget>[
@@ -97,10 +97,29 @@ Widget infoWithIcon(message, icon,iconSize) {
       ),
       Text(
         message ?? "目前什么都没有",
-        style: TextStyle(
-          color: Colors.white70,
-          fontSize: 13
+        style: TextStyle(color: Colors.white70, fontSize: 13),
+      ),
+    ],
+  );
+}
+
+//图标+文字，水平排布
+Widget iconWithTextHorizontal(
+    {icon, text, iconColor, textColor, iconSize, textSize, padding = 5.0}) {
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: <Widget>[
+      Padding(
+        padding: EdgeInsets.only(right: padding),
+        child: Icon(
+          icon,
+          color: iconColor,
+          size: iconSize,
         ),
+      ),
+      Text(
+        text ?? '',
+        style: TextStyle(color: textColor, fontSize: textSize),
       ),
     ],
   );

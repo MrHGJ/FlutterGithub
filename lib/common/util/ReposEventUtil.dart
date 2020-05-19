@@ -98,7 +98,7 @@ class EventUtils {
 
       case "PushEvent":
         String ref = event.payload.ref;
-        ref = ref.substring(ref.lastIndexOf("/") + 1);
+        ref = ref.substring(11);
         actionStr = "Push to " + ref + " at " + event.repo.name;
 
         des = '';

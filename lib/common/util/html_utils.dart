@@ -160,6 +160,12 @@ class HtmlUtils {
         MyColors.primaryLightValueString +
         ";" +
         "}" +
+        ".hljs-addition {" +
+        "background-color: #52C37A;" +
+        "}" +
+        ".hljs-deletion {" +
+        "background-color: LightPink;" +
+        "}" +
         "</style>" +
         "</head>\n" +
         "<body>\n" +
