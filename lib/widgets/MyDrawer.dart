@@ -2,10 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttergithub/common/Global.dart';
 import 'package:fluttergithub/common/constant/constant.dart';
+import 'package:fluttergithub/common/icons.dart';
 import 'package:fluttergithub/common/myAvatar.dart';
+import 'package:fluttergithub/common/util/CommonUtil.dart';
 import 'package:fluttergithub/l10n/localization_intl.dart';
-import 'package:fluttergithub/routes/drawer/repo_detail_page.dart';
+import 'package:fluttergithub/routes/drawer/follow_list_page.dart';
+import 'package:fluttergithub/routes/login_page.dart';
+import 'package:fluttergithub/routes/repo_detail_page.dart';
 import 'package:fluttergithub/routes/person_detail_page.dart';
+import 'package:fluttergithub/routes/repo_list_page.dart';
 import 'package:fluttergithub/states/UserModel.dart';
 import 'package:provider/provider.dart';
 
@@ -74,7 +79,7 @@ class MyDrawer extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
-                      PersonDetailPage(name:"MrHGJ"),
+                      PersonDetailPage(name: UserModel().user.login),
                 ),
               );
             }
@@ -91,22 +96,53 @@ class MyDrawer extends StatelessWidget {
         var gm = GmLocalizations.of(context);
         return ListView(
           children: <Widget>[
+//            ListTile(
+//              leading: const Icon(Icons.trending_up),
+//              title: Text(gm.trend),
+//              onTap: () => Navigator.pushNamed(context, "trend"),
+//            ),
+//            ListTile(
+//                leading: const Icon(Icons.folder_shared),
+//                title: Text("我的仓库"),
+//                onTap: (){goToPage(context: context, page:RepoListRoute(title: "我的仓库",personName: UserModel().user.login,isStarredRepoList: false,));}
+//            ),
             ListTile(
-              leading: const Icon(Icons.trending_up),
-              title: Text(gm.trend),
-              onTap: () => Navigator.pushNamed(context, "trend"),
-            ),
+                leading: const Icon(Icons.star),
+                title: Text(gm.myStarRepos),
+                onTap: () {
+                  goToPage(
+                      context: context,
+                      page: RepoListRoute(
+                        title: gm.myStarRepos,
+                        personName: UserModel().user.login,
+                        isStarredRepoList: true,
+                      ));
+                }),
             ListTile(
-              leading: const Icon(Icons.radio),
-              title: Text("项目详情"),
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      RepoDetailRoute("MrHGJ", "FlutterGithub"),
-                ),
-              ),
-            ),
+                leading: const Icon(Icons.favorite),
+                title: Text(gm.myFollow),
+                onTap: () {
+                  goToPage(
+                      context: context,
+                      page: FollowListPage(
+                          "Following List", UserModel().user.login));
+                }),
+//            ListTile(
+//                leading: const Icon(MyIcons.footprint_fill),
+//                title: Text("足迹"),
+//                onTap: (){goToPage(context: context, page: RepoHistoryPage());}
+//            ),
+//            ListTile(
+//                leading: const Icon(Icons.search),
+//                title: Text("搜索"),
+//                onTap: (){goToPage(context: context, page: SearchPage());}
+//            ),
+            ListTile(
+                leading: const Icon(MyIcons.github_fill),
+                title: Text(gm.thisProject),
+                onTap: () => goToPage(
+                    context: context,
+                    page: RepoDetailRoute("MrHGJ", "FlutterGithub"))),
             ListTile(
               leading: const Icon(Icons.color_lens),
               title: Text(gm.theme),
@@ -117,11 +153,11 @@ class MyDrawer extends StatelessWidget {
               title: Text(gm.language),
               onTap: () => Navigator.pushNamed(context, "language"),
             ),
-            ListTile(
-              leading: const Icon(Icons.accessible),
-              title: Text(gm.test),
-              onTap: () => Navigator.pushNamed(context, "test"),
-            ),
+//            ListTile(
+//              leading: const Icon(Icons.accessible),
+//              title: Text(gm.test),
+//              onTap: () => Navigator.pushNamed(context, "test"),
+//            ),
             if (userModel.isLogin)
               ListTile(
                 leading: const Icon(Icons.power_settings_new),
@@ -145,8 +181,8 @@ class MyDrawer extends StatelessWidget {
                               userModel.user = null;
                               Global.prefs.remove(Constant.IS_LOGIN_KEY);
                               Global.prefs.remove(Constant.BASIC_KEY);
-                              Global.prefs.remove(Constant.TOKEN_KEY);
                               Navigator.pop(context);
+                              goToPage(context: context, page: LoginRoute());
                             },
                           ),
                         ],

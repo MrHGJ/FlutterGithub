@@ -11,11 +11,15 @@ CommitItemBean _$CommitItemBeanFromJson(Map<String, dynamic> json) {
     ..sha = json['sha'] as String
     ..commit = json['commit'] == null
         ? null
-        : CommitContentBean.fromJson(json['commit'] as Map<String, dynamic>);
+        : CommitContentBean.fromJson(json['commit'] as Map<String, dynamic>)
+    ..committer = json['committer'] == null
+        ? null
+        : UserBean.fromJson(json['committer'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$CommitItemBeanToJson(CommitItemBean instance) =>
     <String, dynamic>{
       'sha': instance.sha,
       'commit': instance.commit,
+      'committer': instance.committer,
     };

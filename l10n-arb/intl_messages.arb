@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2020-05-11T15:22:01.800523",
+  "@@last_modified": "2020-05-21T11:14:01.431070",
   "title": "Flutter APP",
   "@title": {
     "description": "Title for the Demo application",
@@ -66,7 +66,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "logout": "logout",
+  "logout": "Logout",
   "@logout": {
     "type": "text",
     "placeholders": {}
@@ -106,28 +106,58 @@
     "type": "text",
     "placeholders": {}
   },
-  "info": "INFO",
+  "info": "info",
   "@info": {
     "type": "text",
     "placeholders": {}
   },
-  "file": "FILE",
+  "file": "file",
   "@file": {
     "type": "text",
     "placeholders": {}
   },
-  "commit": "COMMIT",
+  "commit": "commit",
   "@commit": {
     "type": "text",
     "placeholders": {}
   },
-  "activity": "ACTIVITY",
+  "activity": "activity",
   "@activity": {
     "type": "text",
     "placeholders": {}
   },
   "size": "size",
   "@size": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "myStarRepos": "My Star",
+  "@myStarRepos": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "myFollow": "My Follow",
+  "@myFollow": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "thisProject": "This Project",
+  "@thisProject": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "repositories": "repositories",
+  "@repositories": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "footprint": "footprint",
+  "@footprint": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "me": "me",
+  "@me": {
     "type": "text",
     "placeholders": {}
   }

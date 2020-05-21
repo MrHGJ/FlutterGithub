@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttergithub/common/net/NetApi.dart';
 import 'package:fluttergithub/models/index.dart';
 import 'package:fluttergithub/widgets/TrendReposItem.dart';
+import 'package:fluttergithub/widgets/myWidgets/no_data_or_no_net.dart';
 
 class TrendReposRoute extends StatefulWidget {
   @override
@@ -20,6 +21,9 @@ class _TrendReposRouteState extends State<TrendReposRoute>
   @override
   Widget build(BuildContext context) {
     return InfiniteListView<TrendRepoBean>(
+      emptyBuilder: (VoidCallback refresh, BuildContext context){
+        return listNoDataView(refresh, context);
+      },
       onRetrieveData:
           (int page, List<TrendRepoBean> items, bool refresh) async {
         var data = await NetApi(context).getTrendingRepos("daily", "");

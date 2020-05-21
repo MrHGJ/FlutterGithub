@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:fluttergithub/common/event/event_bus.dart';
 ///扩充自InfiniteListView。地址： https://github.com/flutterchina/flukit
 /// 扩充了参数 refreshKey 作用：用户外部获取RefreshIndicator的State，通过代码触发刷新
 /// if return `true`, indicates no more data;
@@ -92,7 +93,8 @@ class _InfiniteListViewState<T> extends State<MyInfiniteListView<T>> {
   dynamic initError;
 
   bool get _hasHeader => widget.headerBuilder != null;
-
+  //搜索订阅事件
+  var _searchChangeSubscription;
   @override
   void initState() {
     super.initState();
@@ -100,6 +102,10 @@ class _InfiniteListViewState<T> extends State<MyInfiniteListView<T>> {
     if (!state.initialized) {
       refresh(false);
     }
+    //订阅搜索事件
+    _searchChangeSubscription = eventBus.on<SearchEvent>().listen((event) {
+     refresh(false);
+    });
   }
 
   loadMore() async {

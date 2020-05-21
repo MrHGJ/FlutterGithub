@@ -24,7 +24,6 @@ class RepoBean {
     String created_at;
     String updated_at;
     num subscribers_count;
-    Map<String,dynamic> license;
     
     factory RepoBean.fromJson(Map<String,dynamic> json) => _$RepoBeanFromJson(json);
     Map<String, dynamic> toJson() => _$RepoBeanToJson(this);

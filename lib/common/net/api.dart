@@ -21,6 +21,21 @@ class Api {
     return Constant.BASE_URL + "/repos/$repoOwner/$repoName";
   }
 
+  //Star仓库的人 get
+  static getRepoStargazers(reposOwner, reposName) {
+    return "${Constant.BASE_URL}/repos/$reposOwner/$reposName/stargazers";
+  }
+
+  //Watch仓库的人 get
+  static getRepoWatchers(reposOwner, reposName) {
+    return "${Constant.BASE_URL}/repos/$reposOwner/$reposName/subscribers";
+  }
+
+  //获取当前项目分支
+  static getBranch(String repoOwner, String repoName) {
+    return '${Constant.BASE_URL}/repos/$repoOwner/$repoName/branches';
+  }
+
   //获取Readme.md内容
   static getReadme(String repoOwner, String repoName) {
     return "${Constant.BASE_URL}/repos/$repoOwner/$repoName/readme";
@@ -29,6 +44,11 @@ class Api {
   //获取commits列表
   static getRepoCommits(String repoOwner, String repoName) {
     return "${Constant.BASE_URL}/repos/$repoOwner/$repoName/commits";
+  }
+
+  //获取commits详情列表
+  static getRepoCommitsDetail(String repoOwner, String repoName, String sha) {
+    return "${Constant.BASE_URL}/repos/$repoOwner/$repoName/commits/$sha";
   }
 
   //获取项目动态列表
@@ -45,10 +65,12 @@ class Api {
   static getStarredRepos(String userName) {
     return "${Constant.BASE_URL}/users/$userName/starred";
   }
+
   //获取用户动态列表
   static getUserEvents(String userName) {
     return "${Constant.BASE_URL}/users/$userName/events";
   }
+
   //userName关注的人
   static getUserFollowing(userName) {
     return "${Constant.BASE_URL}/users/$userName/following?";
@@ -58,6 +80,16 @@ class Api {
   static getUserFollower(userName) {
     return "${Constant.BASE_URL}/users/$userName/followers?";
   }
+
+  ///搜索
+  ///type: repositories(搜索仓库)，users(搜索用户)
+  ///searchWords: 搜索的关键词
+  ///sort: 排序的方式，例如Best Match, Most Stars...
+  ///order ： desc(降序)， asc(升序)
+  static search(type, searchWords, sort, order) {
+    return "${Constant.BASE_URL}/search/$type?q=$searchWords&sort=$sort&order=$order";
+  }
+
   //趋势项目
   static getTrendingRepos(String since, String language) {
     return "https://github-trending-api.now.sh/repositories?language=$language&since=$since";
@@ -66,5 +98,15 @@ class Api {
   //趋势用户
   static getTrendDevelopers(String since, String language) {
     return 'https://github-trending-api.now.sh/developers?language=$language&since=$since';
+  }
+
+  //判断当前项目是否star
+  static isStarred(String repoOwner, String repoName) {
+    return "${Constant.BASE_URL}/user/starred/$repoOwner/$repoName";
+  }
+
+  //判断当前developer是否已follow
+  static isFollowing(String developerName) {
+    return "${Constant.BASE_URL}/user/following/$developerName";
   }
 }

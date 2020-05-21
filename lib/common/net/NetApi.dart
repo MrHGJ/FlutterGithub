@@ -46,14 +46,9 @@ class NetApi {
 //    }
   }
 
-  getAuthorization() async {
-    String token = Global.prefs.get(Constant.TOKEN_KEY);
-    if (token != null) {
-      return token;
-    } else {
-      String basic = Global.prefs.get(Constant.BASIC_KEY);
-      return basic;
-    }
+  getAuthorization() {
+    String basic = Global.prefs.get(Constant.BASIC_KEY);
+    return basic;
   }
 
   //GitHub API OAuth认证，获取token
@@ -64,9 +59,6 @@ class NetApi {
     var r = await dio.request(urlOauth,
         data: json.encode(oAuthParams), options: _options);
     if (r.data['token'] != null) {
-      LogUtil.e(r.data['token']);
-      //token : 89679626d7827c3fa52dbb3ca99d8a877a501b7e
-      Global.prefs.setString(Constant.TOKEN_KEY, 'token ' + r.data['token']);
       //更新profile中的token信息
       Global.profile.token = r.data['token'];
     }
@@ -76,11 +68,11 @@ class NetApi {
   Future<UserBean> login(String username, String pwd) async {
     String basic = 'Basic ' + base64.encode(utf8.encode('$username:$pwd'));
     //存储用户名、密码、basic到sp
-    Global.prefs.setString(Constant.USER_NAME_KEY, username);
+    Global.prefs.setString(Constant.USER_LOGIN_KEY, username);
     Global.prefs.setString(Constant.PASSWORD_KEY, pwd);
     Global.prefs.setString(Constant.BASIC_KEY, basic);
 
-    passOAuth(basic);
+    //passOAuth(basic);
     //登录成功后更新公共头（authorization），此后的所有请求都会带上用户身份信息
     //dio.options.headers[HttpHeaders.authorizationHeader] = basic;
     //清空所有缓存
@@ -93,7 +85,9 @@ class NetApi {
     _options.headers["Authorization"] = await getAuthorization();
     //Basic TXJIR0o6SGdqOTQwNjI3
     var response = await dio.request(urlLogin, options: _options);
-    return UserBean.fromJson(response.data);
+    UserBean data = UserBean.fromJson(response.data);
+    Global.prefs.setString(Constant.USER_NAME_KEY, data.login);
+    return data;
   }
 
   //获取用户项目列表
@@ -126,9 +120,41 @@ class NetApi {
     return RepoDetailBean.fromJson(response.data);
   }
 
+  //获取star或者watch仓库人的列表
+  Future<List<UserBean>> getRepoStargazersOrWatcher(
+      {@required repoOwner,
+      @required repoName,
+      @required isStargazers,
+      Map<String, dynamic> queryParameters}) async {
+    var url;
+    if (isStargazers) {
+      url = Api.getRepoStargazers(repoOwner, repoName);
+    } else {
+      url = Api.getRepoWatchers(repoOwner, repoName);
+    }
+    _options.method = "get";
+    _options.headers["Authorization"] = await getAuthorization();
+    var response = await dio.request<List>(url,
+        queryParameters: queryParameters, options: _options);
+    return response.data.map((e) => UserBean.fromJson(e)).toList();
+  }
+
+  //获取项目repo分支
+  Future<List<BranchBean>> getRepoBranch(
+      String repoOwner, String repoName) async {
+    var url = Api.getBranch(repoOwner, repoName);
+    _options.method = "get";
+    _options.headers["Authorization"] = await getAuthorization();
+    var response = await dio.request<List>(url, options: _options);
+    return response.data.map((e) => BranchBean.fromJson(e)).toList();
+  }
+
   //获取readme
-  Future<ReadmeBean> getReadme(String repoOwner, String repoName) async {
+  Future<ReadmeBean> getReadme({repoOwner, repoName, branch = 'master'}) async {
     var url = Api.getReadme(repoOwner, repoName);
+    if (branch != 'master') {
+      url += '?ref=' + branch;
+    }
     _options.method = "get";
     _options.headers["Authorization"] = await getAuthorization();
     var response = await dio.request(url, options: _options);
@@ -138,16 +164,36 @@ class NetApi {
   //获取repo的commits列表
   Future<List<CommitItemBean>> getCommits(String repoOwner, String repoName,
       {Map<String, dynamic> queryParameters, //query参数，用于接收分页信息
-      refresh = false}) async {
+      branch = 'master'}) async {
     _options.method = "get";
     _options.headers["Authorization"] = await getAuthorization();
     var url = Api.getRepoCommits(repoOwner, repoName);
+    if (branch != 'master') {
+      url += '?sha=' + branch;
+    }
     var r = await dio.request<List>(
       url,
       queryParameters: queryParameters,
       options: _options,
     );
     return r.data.map((e) => CommitItemBean.fromJson(e)).toList();
+  }
+
+  //获取repo的commits详情
+  Future<CommitDetailBean> getCommitsDetail(
+      String repoOwner, String repoName, String sha,
+      {branch = 'master'}) async {
+    _options.method = "get";
+    _options.headers["Authorization"] = await getAuthorization();
+    var url = Api.getRepoCommitsDetail(repoOwner, repoName, sha);
+    if (branch != 'master') {
+      url += '?sha=' + branch;
+    }
+    var r = await dio.request(
+      url,
+      options: _options,
+    );
+    return CommitDetailBean.fromJson(r.data);
   }
 
   //获取repo的activity列表
@@ -169,10 +215,13 @@ class NetApi {
   Future<List<FileBean>> getReposContent(
       String repoOwner, String repoName, String path,
       {Map<String, dynamic> queryParameters, //query参数，用于接收分页信息
-      refresh = false}) async {
+      branch = 'master'}) async {
     _options.method = "get";
     _options.headers["Authorization"] = await getAuthorization();
     var url = Api.getRepoContent(repoOwner, repoName, path);
+    if (branch != 'master') {
+      url += '?ref=' + branch;
+    }
     var r = await dio.request<List>(
       url,
       queryParameters: queryParameters,
@@ -183,14 +232,15 @@ class NetApi {
 
   //获取repo中代码内容
   Future<String> getReposCodeFileContent(
-    String repoOwner,
-    String repoName,
-    String path,
-  ) async {
+      String repoOwner, String repoName, String path,
+      {branch = 'master'}) async {
     _options.method = "get";
     _options.headers["Accept"] = 'application/vnd.github.html';
     _options.headers["Authorization"] = await getAuthorization();
     var url = Api.getRepoContent(repoOwner, repoName, path);
+    if (branch != 'master') {
+      url += '?ref=' + branch;
+    }
     var r = await dio.request(
       url,
       options: _options,
@@ -256,6 +306,46 @@ class NetApi {
     return response.data.map((e) => UserBean.fromJson(e)).toList();
   }
 
+  //搜索仓库
+  Future<List<RepoBean>> searchRepos(
+      {@required String keyWords,
+      String sort = 'best match',
+      String order = 'desc',
+      Map<String, dynamic> queryParameters}) async {
+    String type = 'repositories';
+    _options.method = "get";
+    _options.headers["Authorization"] = await getAuthorization();
+    var url = Api.search(type, keyWords, sort, order);
+    var response = await dio.request(
+      url,
+      queryParameters: queryParameters,
+      options: _options,
+    );
+    return response.data['items']
+        .map<RepoBean>((e) => RepoBean.fromJson(e))
+        .toList();
+  }
+
+  //搜索仓库
+  Future<List<UserBean>> searchUsers(
+      {@required String keyWords,
+      String sort = 'best match',
+      String order = 'desc',
+      Map<String, dynamic> queryParameters}) async {
+    String type = 'users';
+    _options.method = "get";
+    _options.headers["Authorization"] = await getAuthorization();
+    var url = Api.search(type, keyWords, sort, order);
+    var response = await dio.request(
+      url,
+      queryParameters: queryParameters,
+      options: _options,
+    );
+    return response.data['items']
+        .map<UserBean>((e) => UserBean.fromJson(e))
+        .toList();
+  }
+
   //获取trending repos 项目排行榜
   Future<List<TrendRepoBean>> getTrendingRepos(
       String since, String language) async {
@@ -272,5 +362,78 @@ class NetApi {
     return response.data
         .map((item) => TrendDeveloperBean.fromJson(item))
         .toList();
+  }
+
+  //检查是否star
+  Future<int> checkIsStar({String repoOwner, String repoName}) async {
+    var url = Api.isStarred(repoOwner, repoName);
+    var responses;
+    _options.method = "get";
+    _options.headers["Authorization"] = getAuthorization();
+    try {
+      responses = await dio.request(url, options: _options);
+    } on DioError catch (e) {
+      if (e.response != null) {
+        print(e.response.data);
+        print(e.response.headers);
+//        print(e.response.request);
+      } else {
+        // Something happened in setting up or sending the request that triggered an Error
+        //print(e.type);
+      }
+      return 404;
+    }
+    return responses.statusCode;
+  }
+
+  //对项目进行star或者unstar
+  Future<int> starOrUnStar(
+      {String repoOwner, String repoName, bool isStarred}) async {
+    var url = Api.isStarred(repoOwner, repoName);
+    var responses;
+    _options.method = !isStarred ? 'PUT' : 'DELETE';
+    _options.headers["Authorization"] = getAuthorization();
+    try {
+      responses = await dio.request(url, options: _options);
+    } on DioError catch (e) {
+      return 404;
+    }
+    return responses.statusCode;
+  }
+
+  //检查是否following
+  Future<int> checkIsFollowing({String developerName}) async {
+    var url = Api.isFollowing(developerName);
+    var responses;
+    _options.method = "get";
+    _options.headers["Authorization"] = getAuthorization();
+    try {
+      responses = await dio.request(url, options: _options);
+    } on DioError catch (e) {
+      if (e.response != null) {
+        print(e.response.data);
+        print(e.response.headers);
+//        print(e.response.request);
+      } else {
+        // Something happened in setting up or sending the request that triggered an Error
+        //print(e.type);
+      }
+      return 404;
+    }
+    return responses.statusCode;
+  }
+
+  //对developer进行Follow或者UnFollow
+  Future<int> followOrUnFollow({String developerName, bool isFollowed}) async {
+    var url = Api.isFollowing(developerName);
+    var responses;
+    _options.method = !isFollowed ? 'PUT' : 'DELETE';
+    _options.headers["Authorization"] = getAuthorization();
+    try {
+      responses = await dio.request(url, options: _options);
+    } on DioError catch (e) {
+      return 404;
+    }
+    return responses.statusCode;
   }
 }

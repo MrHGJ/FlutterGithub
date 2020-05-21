@@ -16,12 +16,5 @@
   "pushed_at": "2011-01-26T19:06:43Z",
   "created_at": "2011-01-26T19:01:12Z",
   "updated_at": "2011-01-26T19:14:43Z",
-  "subscribers_count": 42,
-  "license": {
-    "key": "mit",
-    "name": "MIT License",
-    "spdx_id": "MIT",
-    "url": "https://api.github.com/licenses/mit",
-    "node_id": "MDc6TGljZW5zZW1pdA=="
-  }
+  "subscribers_count": 42
 }

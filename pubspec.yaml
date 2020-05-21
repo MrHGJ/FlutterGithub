@@ -43,6 +43,9 @@ dependencies:
   webview_flutter: ^0.3.19+9
   # A simple transparent image. https://pub.dev/packages/transparent_image#-readme-tab-
   transparent_image: ^1.0.0
+  event_bus: ^1.1.0
+  #sqlite 数据库
+  sqflite: ^1.1.0
   #PhotoView使图像能够通过用户手势（例如捏，旋转和拖动）进行缩放和平移。
   photo_view:
     git:
@@ -94,6 +97,9 @@ flutter:
     - family: myIcon
       fonts:
         - asset: fonts/iconfont.ttf
+    - family: fileIcon
+      fonts:
+        - asset: fonts/fileiconfont.ttf
   # fonts:
   #   - family: Schyler
   #     fonts:

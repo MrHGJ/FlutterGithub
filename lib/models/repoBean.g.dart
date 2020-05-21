@@ -29,8 +29,7 @@ RepoBean _$RepoBeanFromJson(Map<String, dynamic> json) {
     ..pushed_at = json['pushed_at'] as String
     ..created_at = json['created_at'] as String
     ..updated_at = json['updated_at'] as String
-    ..subscribers_count = json['subscribers_count'] as num
-    ..license = json['license'] as Map<String, dynamic>;
+    ..subscribers_count = json['subscribers_count'] as num;
 }
 
 Map<String, dynamic> _$RepoBeanToJson(RepoBean instance) => <String, dynamic>{
@@ -52,5 +51,4 @@ Map<String, dynamic> _$RepoBeanToJson(RepoBean instance) => <String, dynamic>{
       'created_at': instance.created_at,
       'updated_at': instance.updated_at,
       'subscribers_count': instance.subscribers_count,
-      'license': instance.license,
     };

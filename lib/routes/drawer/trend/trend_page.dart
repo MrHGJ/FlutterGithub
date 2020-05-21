@@ -4,6 +4,7 @@ import 'package:fluttergithub/common/util/CommonUtil.dart';
 import 'package:fluttergithub/l10n/localization_intl.dart';
 import 'package:fluttergithub/routes/drawer/trend/trend_page_developers.dart';
 import 'package:fluttergithub/routes/drawer/trend/trend_page_repos.dart';
+import 'package:fluttergithub/widgets/MyDrawer.dart';
 
 class TrendRoute extends StatefulWidget {
   @override
@@ -40,6 +41,8 @@ class _TrendRouteState extends State<TrendRoute>
         title: TabBar(
           controller: _tabController,
           labelPadding: EdgeInsets.all(8.0),
+          labelStyle: TextStyle(fontSize: 20),
+          unselectedLabelStyle: TextStyle(fontSize: 16),
           isScrollable: true,
           indicatorColor: Colors.white,
           tabs: choices
@@ -61,6 +64,7 @@ class _TrendRouteState extends State<TrendRoute>
           },
         ),
       ),
+      drawer: MyDrawer(),
       body: PageView(
         controller: _pageController,
         children: <Widget>[

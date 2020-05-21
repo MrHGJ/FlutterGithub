@@ -9,12 +9,20 @@ import 'package:fluttergithub/routes/FileView/code_detail_fullscreen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class CodeDetailWeb extends StatefulWidget {
-  CodeDetailWeb(this.repoOwner, this.repoName, this.title, this.filePath);
+  CodeDetailWeb(
+      {this.repoOwner,
+      this.repoName,
+      @required this.title,
+      this.filePath,
+      this.htmlData,
+      this.branch});
 
   final String repoOwner;
   final String repoName;
   final String title;
   final String filePath;
+  final String branch;
+  final String htmlData;
 
   @override
   State<StatefulWidget> createState() {
@@ -26,8 +34,12 @@ class _CodeDetailWebState extends State<CodeDetailWeb> {
   String codeData;
 
   Future<String> _getNetData() async {
+    if (widget.htmlData != null) {
+      return widget.htmlData;
+    }
     var response = await NetApi(context).getReposCodeFileContent(
-        widget.repoOwner, widget.repoName, widget.filePath);
+        widget.repoOwner, widget.repoName, widget.filePath,
+        branch: widget.branch);
     String data = HtmlUtils.resolveHtmlFile(response, "java");
     String url = new Uri.dataFromString(data,
             mimeType: 'text/html', encoding: Encoding.getByName("utf-8"))

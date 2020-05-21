@@ -23,13 +23,14 @@ class MyApp extends StatelessWidget {
           (BuildContext context, themeModel, localeModel, Widget child) {
         return MaterialApp(
           theme: ThemeData(
-            primaryColor: themeModel.theme,
-            primaryColorDark: themeModel.theme
-          ),
+              primaryColor: themeModel.theme,
+              primaryColorDark: themeModel.theme),
           onGenerateTitle: (context) {
             return GmLocalizations.of(context).title;
           },
-          home: HomeRoute(),
+          home: Provider.of<UserModel>(context).isLogin
+              ? HomeRoute()
+              : LoginRoute(),
           //应用主页
           locale: localeModel.getLocale(),
           //我们只支持美国英语和中文简体
@@ -66,8 +67,8 @@ class MyApp extends StatelessWidget {
             "login": (context) => LoginRoute(),
             "themes": (context) => ThemeChangeRoute(),
             "language": (context) => LanguageRoute(),
-            "test":(context)=>TestRoute(),
-            "trend":(context)=>TrendRoute(),
+            "test": (context) => TestRoute(),
+            "trend": (context) => TrendRoute(),
           },
         );
       }),

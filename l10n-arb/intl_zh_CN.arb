@@ -130,5 +130,35 @@
   "@size": {
     "type": "text",
     "placeholders": {}
+  },
+  "myStarRepos": "我star的项目",
+  "@myStarRepos": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "myFollow": "我关注的人",
+  "@myFollow": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "thisProject": "浏览本项目",
+  "@thisProject": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "repositories": "仓库",
+  "@repositories": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "footprint": "足迹",
+  "@footprint": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "me": "我的",
+  "@me": {
+    "type": "text",
+    "placeholders": {}
   }
 }
