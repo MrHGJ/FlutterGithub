@@ -59,6 +59,12 @@ class GmLocalizations {
   String get commit => Intl.message('commit', name: 'commit');
   String get activity => Intl.message('activity', name: 'activity');
   String get size => Intl.message('size', name: 'size');
+  String get myStarRepos => Intl.message('my star',name: 'myStarRepos');
+  String get myFollow => Intl.message('my follow',name: 'myFollow');
+  String get thisProject =>Intl.message('this project',name: 'thisProject');
+  String get repositories => Intl.message('repositories',name: 'repositories');
+  String get footprint => Intl.message('footprint',name: 'footprint');
+  String get me=>Intl.message('me',name: 'me');
 
 }
 

@@ -7,6 +7,7 @@ import 'package:fluttergithub/common/util/ListViewUtil.dart';
 import 'package:fluttergithub/models/index.dart';
 import 'package:fluttergithub/routes/FileView/code_detail_web.dart';
 import 'package:fluttergithub/routes/FileView/photo_view_page.dart';
+import 'package:fluttergithub/widgets/myWidgets/no_data_or_no_net.dart';
 
 class FileList extends StatefulWidget {
   FileList(this._reposOwner, this._reposName, this._branch);
@@ -201,6 +202,9 @@ class _FileListState extends State<FileList>
               context: context,
               child: MyInfiniteListView<FileBean>(
                 refreshKey: refreshIndicatorKey,
+                emptyBuilder: (VoidCallback refresh, BuildContext context){
+                  return listNoDataView(refresh, context);
+                },
                 onRetrieveData:
                     (int page, List<FileBean> items, bool refresh) async {
                   var netData = await NetApi(context).getReposContent(

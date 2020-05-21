@@ -5,6 +5,7 @@ import 'package:fluttergithub/common/net/NetApi.dart';
 import 'package:fluttergithub/common/util/ListViewUtil.dart';
 import 'package:fluttergithub/models/index.dart';
 import 'package:fluttergithub/widgets/RepoItem.dart';
+import 'package:fluttergithub/widgets/myWidgets/no_data_or_no_net.dart';
 
 class SearchPageRepos extends StatefulWidget {
   SearchPageRepos({@required this.searchWords});
@@ -40,7 +41,7 @@ class _SearchPageReposState extends State<SearchPageRepos>
       setState(() {
         curSearchWords = event.searchWords;
       });
-      refreshIndicatorKey.currentState.show(); //更新文件列表
+      //refreshIndicatorKey.currentState.show(); //更新文件列表
     });
   }
 
@@ -51,6 +52,9 @@ class _SearchPageReposState extends State<SearchPageRepos>
       context: context,
       child: MyInfiniteListView<RepoBean>(
         refreshKey: refreshIndicatorKey,
+        emptyBuilder: (VoidCallback refresh, BuildContext context) {
+          return listNoDataView(refresh, context);
+        },
         onRetrieveData: (int page, List<RepoBean> items, bool refresh) async {
           var data = await NetApi(context).searchRepos(
             keyWords: curSearchWords,

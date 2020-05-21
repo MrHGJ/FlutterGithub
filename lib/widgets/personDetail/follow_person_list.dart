@@ -7,6 +7,7 @@ import 'package:fluttergithub/models/index.dart';
 import 'package:fluttergithub/routes/person_detail_page.dart';
 import 'package:fluttergithub/widgets/PersonItem.dart';
 import 'package:fluttergithub/widgets/myWidgets/index.dart';
+import 'package:fluttergithub/widgets/myWidgets/no_data_or_no_net.dart';
 
 class PersonFollowList extends StatefulWidget {
   PersonFollowList(
@@ -32,6 +33,9 @@ class _PersonFollowListState extends State<PersonFollowList>
       removeTop: true,
       context: context,
       child: InfiniteListView<UserBean>(
+        emptyBuilder: (VoidCallback refresh, BuildContext context){
+          return listNoDataView(refresh, context);
+        },
         onRetrieveData: (int page, List<UserBean> items, bool refresh) async {
           var data = await NetApi(context).getFollowList(
             userName: widget.personName,

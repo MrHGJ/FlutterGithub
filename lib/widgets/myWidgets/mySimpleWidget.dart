@@ -85,7 +85,7 @@ Widget infoWithIcon(message, icon, iconSize) {
   if (message == null || message.length == 0) {
     message = "目前什么都没有";
   }
-  return Row(
+  return  Row(
     children: <Widget>[
       Padding(
         padding: EdgeInsets.only(right: 5.0),
@@ -95,10 +95,15 @@ Widget infoWithIcon(message, icon, iconSize) {
           size: iconSize,
         ),
       ),
-      Text(
-        message ?? "目前什么都没有",
-        style: TextStyle(color: Colors.white70, fontSize: 13),
+      Expanded(
+        child: Text(
+          message ?? "目前什么都没有",
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(color: Colors.white70, fontSize: 13),
+        ) ,
       ),
+
     ],
   );
 }

@@ -21,6 +21,16 @@ class Api {
     return Constant.BASE_URL + "/repos/$repoOwner/$repoName";
   }
 
+  //Star仓库的人 get
+  static getRepoStargazers(reposOwner, reposName) {
+    return "${Constant.BASE_URL}/repos/$reposOwner/$reposName/stargazers";
+  }
+
+  //Watch仓库的人 get
+  static getRepoWatchers(reposOwner, reposName) {
+    return "${Constant.BASE_URL}/repos/$reposOwner/$reposName/subscribers";
+  }
+
   //获取当前项目分支
   static getBranch(String repoOwner, String repoName) {
     return '${Constant.BASE_URL}/repos/$repoOwner/$repoName/branches';
@@ -88,5 +98,15 @@ class Api {
   //趋势用户
   static getTrendDevelopers(String since, String language) {
     return 'https://github-trending-api.now.sh/developers?language=$language&since=$since';
+  }
+
+  //判断当前项目是否star
+  static isStarred(String repoOwner, String repoName) {
+    return "${Constant.BASE_URL}/user/starred/$repoOwner/$repoName";
+  }
+
+  //判断当前developer是否已follow
+  static isFollowing(String developerName) {
+    return "${Constant.BASE_URL}/user/following/$developerName";
   }
 }

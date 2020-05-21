@@ -11,6 +11,7 @@ import 'package:fluttergithub/routes/CommitDetail/repo_event_push_list.dart';
 import 'package:fluttergithub/routes/person_detail_page.dart';
 import 'package:fluttergithub/routes/repo_detail_page.dart';
 import 'package:fluttergithub/widgets/myWidgets/index.dart';
+import 'package:fluttergithub/widgets/myWidgets/no_data_or_no_net.dart';
 
 class PersonEventList extends StatefulWidget {
   PersonEventList({@required this.username});
@@ -35,6 +36,9 @@ class _PersonEventListState extends State<PersonEventList>
       removeTop: true,
       context: context,
       child: InfiniteListView<EventBean>(
+        emptyBuilder: (VoidCallback refresh, BuildContext context){
+          return listNoDataView(refresh, context);
+        },
         onRetrieveData: (int page, List<EventBean> items, bool refresh) async {
           var data = await NetApi(context).getUserEvents(
             userName: widget.username,

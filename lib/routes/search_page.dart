@@ -99,35 +99,55 @@ class _SearchPageState extends State<SearchPage>
       },
     );
   }
+
   //清空历史记录
   Future<bool> _showClearHistoryDialog() {
-    return showDialog<bool>(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            content: Text("确定要清空所有搜索历史记录吗？"),
-            actions: <Widget>[
-              FlatButton(
-                child: Text('取消'),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              FlatButton(
-                  child: Text('确定'),
-                  onPressed: () {
-                    setState(() {
-                      historyData.clear();
-                    });
-                    Navigator.of(context).pop();
-                  })
-            ],
-          );
-        });
+    if (historyData != null && historyData.length > 0) {
+      return showDialog<bool>(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: Text("确定要清空所有搜索历史记录吗？"),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('取消'),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+                FlatButton(
+                    child: Text('确定'),
+                    onPressed: () {
+                      setState(() {
+                        historyData.clear();
+                      });
+                      Navigator.of(context).pop();
+                    })
+              ],
+            );
+          });
+    } else {
+      showToast('暂时没有搜索记录。');
+    }
   }
 
   _buildBody() {
     if (searchWords == null || searchWords.length <= 0) {
       return Center(
-        child: Text("哥们，搜点啥"),
+        child: Padding(
+          padding: EdgeInsets.only(top: 60),
+          child:Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Icon(
+              Icons.search,
+              color: Theme.of(context).primaryColor,
+              size: 150,
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 0),
+               child: Text("哥们，搜点啥",style: TextStyle(color: Theme.of(context).primaryColor,fontSize: 25),)
+            )
+          ],
+        ),),
       );
     } else {
       return TabBarView(
@@ -167,13 +187,18 @@ class _SearchPageState extends State<SearchPage>
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(left: 16, right: 16),
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          color: backColor,
-                          size: 20,
+                      GestureDetector(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 16, right: 16),
+                          child: Icon(
+                            Icons.arrow_back_ios,
+                            color: backColor,
+                            size: 20,
+                          ),
                         ),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
                       ),
                       Expanded(
                         child: Padding(

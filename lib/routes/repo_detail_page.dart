@@ -8,6 +8,7 @@ import 'package:fluttergithub/common/util/CommonUtil.dart';
 import 'package:fluttergithub/db/dao/repo_history_dao.dart';
 import 'package:fluttergithub/l10n/localization_intl.dart';
 import 'package:fluttergithub/models/index.dart';
+import 'package:fluttergithub/res/back_image.dart';
 import 'package:fluttergithub/widgets/RepoDetail/index.dart';
 import 'package:fluttergithub/widgets/myWidgets/mySpinKit.dart';
 
@@ -25,6 +26,8 @@ class RepoDetailRoute extends StatefulWidget {
 
 class _RepoDetailRouteState extends State<RepoDetailRoute>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+  bool isStar;
+
   ///当前的项目分支
   String curBranch;
   TabController tabController;
@@ -73,12 +76,39 @@ class _RepoDetailRouteState extends State<RepoDetailRoute>
   }
 
   Future _getRepoDetailData() async {
-    RepoDetailBean repoDetail = await NetApi(context).getRepoDetail(widget.reposOwner, widget.reposName);
+    int starredStatus = await NetApi(context)
+        .checkIsStar(repoOwner: widget.reposOwner, repoName: widget.reposName);
+    setState(() {
+      isStar = (starredStatus == 204);
+    });
+    RepoDetailBean repoDetail = await NetApi(context)
+        .getRepoDetail(widget.reposOwner, widget.reposName);
     RepoDaoBean repoDao = new RepoDaoBean();
     repoDao = repoDao.fromRepoDetailBean(repoDetail);
     RepoHistoryDao dao = new RepoHistoryDao();
     await dao.insert(repoDao);
     return repoDetail;
+  }
+
+  Future _starOrUnStar() async {
+    showLoading(context);
+    int statusCode = await NetApi(context).starOrUnStar(
+        repoOwner: widget.reposOwner,
+        repoName: widget.reposName,
+        isStarred: isStar);
+    Navigator.of(context).pop();
+    if (statusCode == 204) {
+      if (isStar) {
+        showToast('🌟 Unstarred Success');
+      } else {
+        showToast('⭐ ️Starred Success');
+      }
+      setState(() {
+        isStar = !isStar;
+      });
+    } else {
+      showToast('请求失败');
+    }
   }
 
   ///详情页内容
@@ -102,21 +132,34 @@ class _RepoDetailRouteState extends State<RepoDetailRoute>
                 StretchMode.blurBackground,
                 StretchMode.zoomBackground
               ],
-              background: Image.asset(
-                'imgs/repo_back.gif',
-                fit: BoxFit.cover,
-              ),
+              background: getBackImage(context),
             ),
             actions: <Widget>[
-              IconButton(
-                icon: Icon(
-                  MyIcons.fork,
-                  color: Colors.white,
+              InkWell(
+                child: Padding(
+                  padding: EdgeInsets.all(5),
+                  child: Icon(
+                    isStar ? Icons.star : Icons.star_border,
+                    color: Colors.white,
+                  ),
                 ),
-                onPressed: () {
+                onTap: () {
+                  _starOrUnStar();
+                },
+              ),
+              InkWell(
+                child: Padding(
+                  padding:
+                      EdgeInsets.only(right: 8, left: 5, top: 5, bottom: 5),
+                  child: Icon(
+                    MyIcons.fork,
+                    color: Colors.white,
+                  ),
+                ),
+                onTap: () {
                   _showRepoBranchDialog();
                 },
-              )
+              ),
             ],
             bottom: TabBar(
               labelColor: Colors.white,

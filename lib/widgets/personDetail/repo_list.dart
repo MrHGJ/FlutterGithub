@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttergithub/common/net/NetApi.dart';
 import 'package:fluttergithub/models/index.dart';
 import 'package:fluttergithub/widgets/RepoItem.dart';
+import 'package:fluttergithub/widgets/myWidgets/no_data_or_no_net.dart';
 
 class RepoListPage extends StatefulWidget {
   RepoListPage({@required this.personName, @required this.isStarredRepoList});
@@ -27,6 +28,9 @@ class _RepoListPageState extends State<RepoListPage>
       removeTop: true,
       context: context,
       child: InfiniteListView<RepoBean>(
+        emptyBuilder: (VoidCallback refresh, BuildContext context){
+          return listNoDataView(refresh, context);
+        },
         onRetrieveData: (int page, List<RepoBean> items, bool refresh) async {
           var data;
           if (!widget.isStarredRepoList) {
@@ -63,6 +67,9 @@ class _RepoListPageState extends State<RepoListPage>
 
 repoListWidget({BuildContext context, String userName}) {
   return InfiniteListView<RepoBean>(
+    emptyBuilder: (VoidCallback refresh, BuildContext context){
+      return listNoDataView(refresh, context);
+    },
     onRetrieveData: (int page, List<RepoBean> items, bool refresh) async {
       var data = await NetApi(context).getRepos(
         repoOwner: userName,

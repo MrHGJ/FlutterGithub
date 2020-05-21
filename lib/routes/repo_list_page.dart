@@ -3,7 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttergithub/common/net/NetApi.dart';
 import 'package:fluttergithub/models/index.dart';
+import 'package:fluttergithub/widgets/MyDrawer.dart';
 import 'package:fluttergithub/widgets/RepoItem.dart';
+import 'package:fluttergithub/widgets/myWidgets/no_data_or_no_net.dart';
 
 //repo列表，包含titleBar，
 class RepoListRoute extends StatefulWidget {
@@ -29,7 +31,11 @@ class _RepoListRouteState extends State<RepoListRoute> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
+      drawer: widget.isStarredRepoList ? null : MyDrawer(),
       body: InfiniteListView<RepoBean>(
+        emptyBuilder: (VoidCallback refresh, BuildContext context){
+          return listNoDataView(refresh, context);
+        },
         onRetrieveData: (int page, List<RepoBean> items, bool refresh) async {
           var data;
           if (!widget.isStarredRepoList) {

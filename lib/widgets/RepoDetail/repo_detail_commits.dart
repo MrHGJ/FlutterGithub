@@ -9,6 +9,7 @@ import 'package:fluttergithub/common/util/RelativeDateUtil.dart';
 import 'package:fluttergithub/models/index.dart';
 import 'package:fluttergithub/routes/CommitDetail/commit_detail_page.dart';
 import 'package:fluttergithub/widgets/myWidgets/index.dart';
+import 'package:fluttergithub/widgets/myWidgets/no_data_or_no_net.dart';
 
 class CommitsList extends StatefulWidget {
   CommitsList(this._reposOwner, this._reposName, this._branch);
@@ -61,6 +62,9 @@ class _CommitsListState extends State<CommitsList>
       context: context,
       child: MyInfiniteListView<CommitItemBean>(
         refreshKey: refreshIndicatorKey,
+        emptyBuilder: (VoidCallback refresh, BuildContext context){
+          return listNoDataView(refresh, context);
+        },
         onRetrieveData:
             (int page, List<CommitItemBean> items, bool refresh) async {
           var data = await NetApi(context).getCommits(
@@ -117,8 +121,7 @@ class _CommitsListState extends State<CommitsList>
                     commitData.commit.committer.name,
                     style: TextStyle(
                         fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).primaryColor),
+                        fontWeight: FontWeight.bold,),
                   ),
                 ),
                 Padding(
@@ -146,7 +149,6 @@ class _CommitsListState extends State<CommitsList>
                   padding: EdgeInsets.only(right: 5.0),
                   child: Icon(
                     Icons.bookmark,
-                    color: Theme.of(context).primaryColor,
                     size: 16,
                   ),
                 ),
@@ -160,7 +162,6 @@ class _CommitsListState extends State<CommitsList>
                   padding: EdgeInsets.only(right: 5.0),
                   child: Icon(
                     Icons.message,
-                    color: Theme.of(context).primaryColor,
                     size: 16,
                   ),
                 ),

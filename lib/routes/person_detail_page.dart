@@ -2,9 +2,12 @@ import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttergithub/common/Global.dart';
+import 'package:fluttergithub/common/constant/constant.dart';
 import 'package:fluttergithub/common/delegate/index.dart';
 import 'package:fluttergithub/common/myAvatar.dart';
 import 'package:fluttergithub/common/net/NetApi.dart';
+import 'package:fluttergithub/common/util/CommonUtil.dart';
 import 'package:fluttergithub/l10n/localization_intl.dart';
 import 'package:fluttergithub/models/index.dart';
 import 'package:fluttergithub/routes/FileView/photo_view_page.dart';
@@ -28,6 +31,9 @@ class PersonDetailPage extends StatefulWidget {
 
 class _PersonDetailState extends State<PersonDetailPage>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+  bool isFollow;
+  var userLogin;
+
   ///防止FutureBuilder进行不必要的重绘
   var _futureBuilderFuture;
   TabController tabController;
@@ -39,8 +45,9 @@ class _PersonDetailState extends State<PersonDetailPage>
   @override
   void initState() {
     super.initState();
+    userLogin = Global.prefs.getString(Constant.USER_NAME_KEY);
     tabController = TabController(length: 5, vsync: this);
-    _futureBuilderFuture = _getNetData();
+    _futureBuilderFuture = _getPersonDetailData();
   }
 
   ///个人详情页内容
@@ -150,7 +157,7 @@ class _PersonDetailState extends State<PersonDetailPage>
 
   _headPersonInfo(UserBean personData) {
     return Padding(
-      padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+      padding: EdgeInsets.only(left: 16, right: 16, bottom: 20, top: 30),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -158,43 +165,70 @@ class _PersonDetailState extends State<PersonDetailPage>
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(right: 25),
-                  child:
-                      GestureDetector(
-                        child: myAvatar(personData.avatar_url,
-                            width: 80, borderRadius: BorderRadius.circular(80.0)),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  PhotoViewPage(personData.avatar_url),
-                            ),
-                          );
-                        },
+                GestureDetector(
+                  child: myAvatar(personData.avatar_url,
+                      width: 80, borderRadius: BorderRadius.circular(80.0)),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            PhotoViewPage(personData.avatar_url),
                       ),
-
+                    );
+                  },
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      personData.login,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25,
-                        color: Colors.white,
-                      ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          personData.login,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 3),
+                        ),
+                        infoWithIcon(
+                            personData.location, Icons.location_on, 15.0),
+                        infoWithIcon(personData.company, Icons.business, 15.0),
+                        infoWithIcon(personData.blog, Icons.link, 15.0),
+                      ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 3),
+                  ),
+                ),
+                Visibility(
+                  visible: !(userLogin == personData.login),
+                  child: InkWell(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 5),
+                          child: Icon(
+                            isFollow ? Icons.favorite : Icons.favorite_border,
+                            color: isFollow ? Colors.red : Colors.grey,
+                          ),
+                        ),
+                        Text(
+                          isFollow ? 'Followed' : 'UnFollowed',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.white),
+                        )
+                      ],
                     ),
-                    infoWithIcon(personData.location, Icons.location_on, 15.0),
-                    infoWithIcon(personData.company, Icons.business, 15.0),
-                    infoWithIcon(personData.blog, Icons.link, 15.0),
-                  ],
+                    onTap: () {
+                      _followOrUnFollow();
+                    },
+                  ),
                 ),
               ],
             ),
@@ -202,7 +236,7 @@ class _PersonDetailState extends State<PersonDetailPage>
           Padding(
             padding: EdgeInsets.only(top: 5),
             child: Text(
-              personData.name??"",
+              personData.name ?? "",
               style: TextStyle(
                 fontSize: 15,
                 color: Colors.white,
@@ -247,7 +281,33 @@ class _PersonDetailState extends State<PersonDetailPage>
     );
   }
 
-  Future _getNetData() async {
+  Future _getPersonDetailData() async {
+    //检查并设置是否follow
+    int followedStatus =
+        await NetApi(context).checkIsFollowing(developerName: widget.name);
+    setState(() {
+      isFollow = (followedStatus == 204);
+    });
     return NetApi(context).getUserInfo(widget.name);
+  }
+
+  Future _followOrUnFollow() async {
+    showLoading(context);
+    int statusCode = await NetApi(context).followOrUnFollow(
+        developerName: widget.name,
+        isFollowed: isFollow);
+    Navigator.of(context).pop();
+    if (statusCode == 204) {
+      if(isFollow){
+        showToast('💔 UnFollowed Success');
+      }else{
+        showToast('❤️ Followed Success');
+      }
+      setState(() {
+        isFollow = !isFollow;
+      });
+    } else {
+      showToast('请求失败');
+    }
   }
 }

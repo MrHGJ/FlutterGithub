@@ -8,7 +8,9 @@ import 'package:fluttergithub/common/util/RelativeDateUtil.dart';
 import 'package:fluttergithub/db/dao/repo_history_dao.dart';
 import 'package:fluttergithub/l10n/localization_intl.dart';
 import 'package:fluttergithub/models/index.dart';
+import 'package:fluttergithub/widgets/MyDrawer.dart';
 import 'package:fluttergithub/widgets/myWidgets/index.dart';
+import 'package:fluttergithub/widgets/myWidgets/no_data_or_no_net.dart';
 
 import '../person_detail_page.dart';
 import '../repo_detail_page.dart';
@@ -27,6 +29,7 @@ class _RepoHistoryPageState extends State<RepoHistoryPage> {
       appBar: AppBar(
         title: Text('足迹'),
       ),
+      drawer: MyDrawer(),
       body: MyInfiniteListView<RepoDaoBean>(
         onRetrieveData:
             (int page, List<RepoDaoBean> items, bool refresh) async {
@@ -42,6 +45,9 @@ class _RepoHistoryPageState extends State<RepoHistoryPage> {
         itemBuilder: (List list, int index, BuildContext ctx) {
           // 项目信息列表项
           return _repoHistoryItem(list, index);
+        },
+        emptyBuilder: (VoidCallback refresh, BuildContext context){
+          return listNoDataView(refresh, context);
         },
       ),
     );

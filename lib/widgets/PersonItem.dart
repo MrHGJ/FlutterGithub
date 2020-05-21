@@ -18,18 +18,18 @@ class PersonItem extends StatelessWidget {
         child: Row(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(right: 15.0),
+              padding: EdgeInsets.only(right: 20.0),
               child: myAvatar(
                 personData.avatar_url,
-                width: 40.0,
-                height: 40.0,
-                borderRadius: BorderRadius.circular(40),
+                width: 50.0,
+                height: 50.0,
+                borderRadius: BorderRadius.circular(50),
               ),
             ),
             Text(
               personData.login,
               style: TextStyle(
-                  fontSize: 15, color: Theme.of(context).primaryColor),
+                  fontSize: 16, color: Theme.of(context).primaryColor),
             ),
           ],
         ),

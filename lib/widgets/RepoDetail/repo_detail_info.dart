@@ -5,6 +5,8 @@ import 'package:fluttergithub/common/net/NetApi.dart';
 import 'package:fluttergithub/common/util/CommonUtil.dart';
 import 'package:fluttergithub/l10n/localization_intl.dart';
 import 'package:fluttergithub/models/index.dart';
+import 'package:fluttergithub/routes/person_detail_page.dart';
+import 'package:fluttergithub/widgets/RepoDetail/repo_stargazer_or_watcher.dart';
 import 'package:fluttergithub/widgets/markdown/my_markdown_widget.dart';
 import 'package:fluttergithub/widgets/myWidgets/index.dart';
 import 'package:fluttergithub/widgets/myWidgets/mySpinKit.dart';
@@ -75,13 +77,32 @@ class _DetailInfoState extends State<DetailInfo>
               children: <Widget>[
                 Row(
                   children: <Widget>[
+                    InkWell(
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 0),
+                        child: Text(
+                          widget._repoDetailData.owner.login,
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green[400]),
+                        ),
+                      ),
+                      onTap: () {
+                        goToPage(
+                            context: context,
+                            page: PersonDetailPage(
+                              name: widget._repoDetailData.owner.login,
+                            ));
+                      },
+                    ),
                     Expanded(
                       child: Text(
-                        widget._repoDetailData.full_name,
+                        '/' + widget._repoDetailData.name,
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: Theme.of(context).primaryColor),
+                            color: Colors.black54),
                       ),
                     ),
                     languageWithPoint(mBranch),
@@ -92,14 +113,48 @@ class _DetailInfoState extends State<DetailInfo>
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      numberAndText(
-                          widget._repoDetailData.open_issues, "Issues"),
-                      numberAndText(widget._repoDetailData.stargazers_count,
-                          "Stargazers"),
-                      numberAndText(
-                          widget._repoDetailData.forks_count, "Forks"),
-                      numberAndText(
-                          widget._repoDetailData.subscribers_count, "Watchers"),
+                      InkWell(
+                        child: numberAndText(
+                            widget._repoDetailData.open_issues, "Issues"),
+                        onTap: () {
+                          showToast('开发中...');
+                        },
+                      ),
+                      InkWell(
+                        child: numberAndText(
+                            widget._repoDetailData.stargazers_count,
+                            "Stargazers"),
+                        onTap: () {
+                          goToPage(
+                              context: context,
+                              page: RepoStarOrWatcherList(
+                                widget._repoDetailData.owner.login,
+                                widget._repoDetailData.name,
+                                isStargazer: true,
+                              ));
+                        },
+                      ),
+                      InkWell(
+                        child: numberAndText(
+                            widget._repoDetailData.forks_count, "Forks"),
+                        onTap: () {
+                          showToast('开发中...');
+                        },
+                      ),
+                      InkWell(
+                        child: numberAndText(
+                            widget._repoDetailData.subscribers_count,
+                            "Watchers"),
+                        onTap: () {
+                          goToPage(
+                              context: context,
+                              page: RepoStarOrWatcherList(
+                                widget._repoDetailData.owner.login,
+                                widget._repoDetailData.name,
+                                isStargazer: false,
+                              ));
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -116,8 +171,7 @@ class _DetailInfoState extends State<DetailInfo>
                   "简介",
                   style: TextStyle(
                       fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).primaryColor),
+                      fontWeight: FontWeight.bold,),
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 5.0),
