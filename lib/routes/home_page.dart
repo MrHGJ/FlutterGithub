@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttergithub/common/icons.dart';
 import 'package:fluttergithub/common/util/CommonUtil.dart';
+import 'package:fluttergithub/l10n/localization_intl.dart';
 import 'package:fluttergithub/routes/search_page.dart';
 import 'package:fluttergithub/states/UserModel.dart';
 
@@ -19,19 +20,15 @@ class HomeRoute extends StatefulWidget {
 
 class _HomeRouteState extends State<HomeRoute> {
   var _position = 0;
-  final iconsMap = {
-    "仓库": MyIcons.repos,
-    "足迹": MyIcons.footprint_fill,
-    "排行": MyIcons.trend,
-    "我的": Icons.person,
-  };
+  var iconsMap;
 
-  List<String> get iconsMapKey => iconsMap.keys.toList();
+  List<String> iconsMapKey;
   var activeColor = Colors.white;
   List<Widget> _pageList = List();
 
   void initState() {
     super.initState();
+
     _pageList.add(RepoListRoute(
       title: "我的仓库",
       personName: UserModel().user.login,
@@ -44,6 +41,13 @@ class _HomeRouteState extends State<HomeRoute> {
 
   @override
   Widget build(BuildContext context) {
+    var gm = GmLocalizations.of(context);
+    iconsMap = {
+      gm.repositories: MyIcons.repos,
+      gm.footprint: MyIcons.footprint_fill,
+      gm.trend: MyIcons.trend,
+      gm.me: Icons.person,
+    };
     DateTime _lastPressedAt; //上次点击时间
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -71,8 +75,8 @@ class _HomeRouteState extends State<HomeRoute> {
       ),
     );
   }
-
   Widget _buildBottomAppBar() {
+    iconsMapKey=iconsMap.keys.toList();
     return BottomAppBar(
       elevation: 1,
       shape: CircularNotchedRectangle(),
@@ -93,6 +97,7 @@ class _HomeRouteState extends State<HomeRoute> {
         child: Wrap(
           direction: Axis.vertical,
           alignment: WrapAlignment.center,
+          crossAxisAlignment: WrapCrossAlignment.center,
           children: <Widget>[
             Icon(
               iconsMap[iconsMapKey[i]],

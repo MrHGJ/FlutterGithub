@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2020-05-21T10:37:07.154606",
+  "@@last_modified": "2020-05-21T11:14:01.431070",
   "title": "Flutter APP",
   "@title": {
     "description": "Title for the Demo application",
@@ -66,7 +66,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "logout": "logout",
+  "logout": "Logout",
   "@logout": {
     "type": "text",
     "placeholders": {}
@@ -131,17 +131,17 @@
     "type": "text",
     "placeholders": {}
   },
-  "myStarRepos": "my star",
+  "myStarRepos": "My Star",
   "@myStarRepos": {
     "type": "text",
     "placeholders": {}
   },
-  "myFollow": "my follow",
+  "myFollow": "My Follow",
   "@myFollow": {
     "type": "text",
     "placeholders": {}
   },
-  "thisProject": "this project",
+  "thisProject": "This Project",
   "@thisProject": {
     "type": "text",
     "placeholders": {}

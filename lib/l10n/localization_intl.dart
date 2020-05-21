@@ -46,7 +46,7 @@ class GmLocalizations {
   String get password => Intl.message('Password', name: 'password');
   String get passwordRequired => Intl.message('Password required!', name: 'passwordRequired');
   String get userNameOrPasswordWrong=>Intl.message('User name or password is not correct!', name: 'userNameOrPasswordWrong');
-  String get logout => Intl.message('logout', name: 'logout');
+  String get logout => Intl.message('Logout', name: 'logout');
   String get logoutTip => Intl.message('Are you sure you want to quit your current account?', name: 'logoutTip');
   String get yes => Intl.message('yes', name: 'yes');
   String get cancel => Intl.message('cancel', name: 'cancel');
@@ -59,9 +59,9 @@ class GmLocalizations {
   String get commit => Intl.message('commit', name: 'commit');
   String get activity => Intl.message('activity', name: 'activity');
   String get size => Intl.message('size', name: 'size');
-  String get myStarRepos => Intl.message('my star',name: 'myStarRepos');
-  String get myFollow => Intl.message('my follow',name: 'myFollow');
-  String get thisProject =>Intl.message('this project',name: 'thisProject');
+  String get myStarRepos => Intl.message('My Star',name: 'myStarRepos');
+  String get myFollow => Intl.message('My Follow',name: 'myFollow');
+  String get thisProject =>Intl.message('This Project',name: 'thisProject');
   String get repositories => Intl.message('repositories',name: 'repositories');
   String get footprint => Intl.message('footprint',name: 'footprint');
   String get me=>Intl.message('me',name: 'me');
