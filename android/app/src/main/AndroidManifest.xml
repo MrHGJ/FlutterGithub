@@ -8,8 +8,9 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="fluttergithub"
-        android:icon="@mipmap/ic_launcher"
+        android:label="FlutterGithub"
+        android:icon="@mipmap/icon_launcher"
+        android:roundIcon="@mipmap/icon_launcher_round"
         android:networkSecurityConfig="@xml/network_security_config">
         <activity
             android:name=".MainActivity"

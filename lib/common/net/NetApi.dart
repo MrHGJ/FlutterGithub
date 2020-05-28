@@ -72,7 +72,7 @@ class NetApi {
     Global.prefs.setString(Constant.PASSWORD_KEY, pwd);
     Global.prefs.setString(Constant.BASIC_KEY, basic);
 
-    //passOAuth(basic);
+    passOAuth(basic);
     //登录成功后更新公共头（authorization），此后的所有请求都会带上用户身份信息
     //dio.options.headers[HttpHeaders.authorizationHeader] = basic;
     //清空所有缓存

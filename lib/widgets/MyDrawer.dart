@@ -158,8 +158,9 @@ class MyDrawer extends StatelessWidget {
 //              title: Text(gm.test),
 //              onTap: () => Navigator.pushNamed(context, "test"),
 //            ),
-            if (userModel.isLogin)
-              ListTile(
+            Visibility(
+              visible: userModel.isLogin,
+              child: ListTile(
                 leading: const Icon(Icons.power_settings_new),
                 title: Text(gm.logout),
                 onTap: () {
@@ -181,8 +182,15 @@ class MyDrawer extends StatelessWidget {
                               userModel.user = null;
                               Global.prefs.remove(Constant.IS_LOGIN_KEY);
                               Global.prefs.remove(Constant.BASIC_KEY);
+                              //隐藏对话框
                               Navigator.pop(context);
-                              goToPage(context: context, page: LoginRoute());
+                              //退出当前页面
+//                              Navigator.pop(context);
+//                              goToPage(context: context, page: LoginRoute());
+                              // (route) => false 清除当前所有页面，并跳转到LoginRout登录页面
+                              Navigator.pushAndRemoveUntil(context,  MaterialPageRoute(
+                                builder: (context) => LoginRoute(),
+                              ), (route) => false);
                             },
                           ),
                         ],
@@ -191,6 +199,7 @@ class MyDrawer extends StatelessWidget {
                   );
                 },
               ),
+            ),
           ],
         );
       },
