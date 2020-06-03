@@ -76,9 +76,12 @@ class _PersonDetailState extends State<PersonDetailPage>
             delegate: MySliverPersistentHeaderDelegate(
               minHeight: 200,
               maxHeight: 200,
+              //图片蒙层背景的实现
               child: Stack(
                 children: <Widget>[
+                  //图片加载loading
                   Center(child: new CircularProgressIndicator()),
+                  //第一层是背景图
                   Container(
                     width: double.infinity,
                     child: FadeInImage.memoryNetwork(
@@ -86,10 +89,12 @@ class _PersonDetailState extends State<PersonDetailPage>
                         image: personInfo.avatar_url,
                         fit: BoxFit.cover),
                   ),
+                  //第二层是当前主题色的半透明处理
                   Container(
                     color: Theme.of(context).primaryColor.withOpacity(0.5),
                     width: double.infinity,
                   ),
+                  //第三层是对前两层背景做高斯模糊处理，然后显示上面的内容
                   ClipRRect(
                     child: BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttergithub/common/icons.dart';
+import 'package:fluttergithub/res/icons.dart';
 import 'package:fluttergithub/common/myAvatar.dart';
 import 'package:fluttergithub/common/net/NetApi.dart';
 import 'package:fluttergithub/common/util/CommonUtil.dart';

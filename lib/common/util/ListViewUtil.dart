@@ -56,7 +56,7 @@ class MyInfiniteListView<T> extends StatefulWidget {
   /// Loading indicator for the first page.
   final WidgetBuilder initLoadingBuilder;
 
-  /// Loading indicator for the first page.
+  /// Loading indicator for the loading more.
   final WidgetBuilder loadingBuilder;
 
   /// List item builder

@@ -2,7 +2,7 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttergithub/common/event/event_bus.dart';
-import 'package:fluttergithub/common/icons.dart';
+import 'package:fluttergithub/res/icons.dart';
 import 'package:fluttergithub/common/net/NetApi.dart';
 import 'package:fluttergithub/common/util/CommonUtil.dart';
 import 'package:fluttergithub/db/dao/repo_history_dao.dart';
