@@ -9,7 +9,4 @@ class Constant{
   static const BASIC_KEY = 'basic';
   static const IS_LOGIN_KEY = 'isLogin';
   static const SEARCH_HISTORY_KEY = 'search_history';
-
- /// OAuth2 token
-  static const ACCESS_TOKEN = 'e6622c7ae42ad52e7d139275601eef46b45dd4c5';
 }
