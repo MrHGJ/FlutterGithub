@@ -84,6 +84,7 @@ $ git clone https://github.com/MrHGJ/FlutterGithub.git
 - **l10n-arb** 多语言相关资源；
 
 - **lib**
+
   -- **common** 存放通用的类。例如全局变量、eventbus、网络请求、常用工具类等。
   
   -- **db** SQLite数据库相关类。
