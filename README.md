@@ -85,13 +85,21 @@ $ git clone https://github.com/MrHGJ/FlutterGithub.git
 
 - **lib**
   -- **common** 存放通用的类。例如全局变量、eventbus、网络请求、常用工具类等。
+  
   -- **db** SQLite数据库相关类。
+  
   -- **l10n** 多语言。
+  
   -- **models** jsons文件夹对应的Dart Model实例类。
+  
   -- **res** 资源文件。例如颜色、图片、自定义Icon图标、字体样式等。
+  
   -- **routes** 存放所有页面路由类。
+  
   -- **states** 保存APP中需要跨组件共享的状态类。
+  
   -- **widges** 可复用的、常用的、封装的widget类。
+  
   -- **main.dart** 程序入口。
 
 ## 相关文章
