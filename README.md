@@ -29,6 +29,7 @@
 </div>
 
 ## 下载体验
+点击下载[https://github.com/MrHGJ/FlutterGithub/raw/master/apk/flutterGithub.apk]
 扫码下载apk进行体验： 
   <br>
 ![](./demo/qr_code.png)
